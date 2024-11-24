@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-// Main Game Class
-public class Main extends JPanel implements ActionListener, KeyListener {
+// Test Game Class
+public class Test extends JPanel implements ActionListener, KeyListener {
     private Timer timer;                 // Game loop timer
     private boolean isRunning = true;    // Game running status
     private int playerX = 50;            // Example player x-position
@@ -15,7 +15,7 @@ public class Main extends JPanel implements ActionListener, KeyListener {
     private int playerSpeed = 5;         // Example player speed
 
     // Constructor
-    public Main() {
+    public Test() {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -77,7 +77,7 @@ public class Main extends JPanel implements ActionListener, KeyListener {
     // Main method
     public static void main(String[] args) {
         JFrame frame = new JFrame("Java Game Template");
-        Main game = new Main();
+        Test game = new Test();
 
         frame.add(game);
         frame.pack();
