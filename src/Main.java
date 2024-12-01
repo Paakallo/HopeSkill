@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 
@@ -20,7 +22,7 @@ public class Main extends Canvas {
     public static void main(String[] args) {
         // initialize game
         Main game = new Main();
-
+        Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
         if (isRunning){
             //TODO: game menu and logic
 
@@ -42,6 +44,26 @@ public class Main extends Canvas {
     public static int getWindowWidth(){
         return window_width;
     }
+
+
 }
 
+class KeysPressed extends KeyAdapter{
+
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                
+                break;
+            case KeyEvent.VK_A:
+                break;
+            case KeyEvent.VK_S:
+                break;
+            case KeyEvent.VK_D:
+                break;
+            default:
+                break;
+        }
+    }          
+}
 
