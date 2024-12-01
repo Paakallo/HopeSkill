@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 
 //this is a game loop
@@ -12,6 +13,7 @@ public class Main extends Canvas {
     static boolean isRunning = true;
 
     public Main(){
+        super();
         new GameWindow(window_width,window_height,"HopeSkill",this);
     }
 
@@ -22,17 +24,17 @@ public class Main extends Canvas {
         if (isRunning){
             //TODO: game menu and logic
 
-            game.render();
+            
         }
     }
 
-
-    public void render(){
-
-
+    // render function
+    public void render(Graphics g){
+        g.setColor(Color.RED);
+        g.fillRect(50, 50, 100, 100);
     }
 
-
+    
 
 }
 
