@@ -51,4 +51,13 @@ public abstract class GameObject {
     public float getVel_y(float vel_y){
         return this.vel_y;
     }
+
+
+    public float getWidth(float width){
+        return this.width;
+    }
+
+    public float getHeight(float height){
+        return this.height;
+    }
 }

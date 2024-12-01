@@ -32,6 +32,8 @@ public class Main extends Canvas {
 
     // render function
     public void render(Graphics g){
+
+        //somehow there will be map
         g.setColor(Color.RED);
         g.fillRect(50, 50, 100, 100);
     }
