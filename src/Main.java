@@ -35,7 +35,13 @@ public class Main extends Canvas {
     }
 
     
+    public static int getWindowHeight(){
+        return window_height;
+    }
 
+    public static int getWindowWidth(){
+        return window_width;
+    }
 }
 
 
