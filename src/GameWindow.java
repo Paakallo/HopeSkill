@@ -9,7 +9,21 @@ public class GameWindow extends Canvas {
 
     
     public GameWindow(int width, int height, String title, Main game){
+        size = new Dimension(width, height);
+        frame = new JFrame(title);
+
+        frame.setPreferredSize(size);
+        frame.setMaximumSize(size);
+        frame.setMinimumSize(size);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.add(game);
         
+        frame.setVisible(true);
+    
+    
     }
 
 }
