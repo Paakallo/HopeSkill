@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Player extends GameObject{
-    private boolean[] mov_keys = new boolean[4];
+    
     private ObjectHandler handler;
     static float height = 32;
     static float width = 16;

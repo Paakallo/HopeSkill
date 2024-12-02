@@ -44,8 +44,8 @@ public class Main extends Canvas {
     public void paint(Graphics g){
 
         //somehow there will be map
-        g.setColor(Color.RED);
-        g.fillRect(50, 50, 100, 100);
+        // g.setColor(Color.RED);
+        // g.fillRect(50, 50, 100, 100);
 
         handler.render(g);
     }
@@ -59,32 +59,5 @@ public class Main extends Canvas {
         return window_width;
     }
     //Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
-
-
-
-// class KeysPressed extends KeyAdapter{
-
-//     public void keyPressed(KeyEvent e) {
-//         switch (e.getKeyCode()) {
-//             case KeyEvent.VK_W:
-//                 //jump
-//                 break;
-//             //left
-//             case KeyEvent.VK_A:
-//                 float x = player.getX();
-//                 player.setX(player.getX() - player.getVel_x());
-//                 break;
-//             //button for action
-//             case KeyEvent.VK_S:
-//                 break;
-//             //right    
-//             case KeyEvent.VK_D:
-//                 player.setX(player.getX() + player.getVel_x());
-//                 break;
-//             default:
-//                 break;
-//         }
-//     }          
-// }
 
 }
