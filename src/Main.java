@@ -15,7 +15,6 @@ public class Main extends Canvas {
     static boolean isRunning = true;
 
     public Main(){
-        super();
         new GameWindow(window_width,window_height,"HopeSkill",this);
     }
 
@@ -25,13 +24,13 @@ public class Main extends Canvas {
         Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
         if (isRunning){
             //TODO: game menu and logic
-
+            //game.paint();
             
         }
     }
 
-    // render function
-    public void render(Graphics g){
+    // render function (I aassume it renders current map)
+    public void paint(Graphics g){
 
         //somehow there will be map
         g.setColor(Color.RED);
