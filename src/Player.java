@@ -14,7 +14,9 @@ public class Player extends GameObject{
 
     }
 
-
+    void gravity(){
+        setVel_y(-3);
+    }
     public boolean[] getKeys(){
         return this.mov_keys;
     }

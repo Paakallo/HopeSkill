@@ -20,7 +20,7 @@ public abstract class GameObject {
     }
 
     abstract void render(Graphics g);
-
+    //abstract void movement();
 
     public float setX(float x){
         return this.x=x;
@@ -37,27 +37,27 @@ public abstract class GameObject {
     }
 
 
-    public float getX(float x){
+    public float getX(){
         return this.x;
     }
-    public float getY(float y){
+    public float getY(){
         return this.y;
     }
 
-    public float getVel_x(float vel_x){
+    public float getVel_x(){
         return this.vel_x;
     }
 
-    public float getVel_y(float vel_y){
+    public float getVel_y(){
         return this.vel_y;
     }
 
 
-    public float getWidth(float width){
+    public float getWidth(){
         return this.width;
     }
 
-    public float getHeight(float height){
+    public float getHeight(){
         return this.height;
     }
 }
