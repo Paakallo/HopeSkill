@@ -20,7 +20,7 @@ public abstract class GameObject {
     }
 
     abstract void render(Graphics g);
-    //abstract void movement();
+    abstract void tick();
 
     public float setX(float x){
         return this.x=x;

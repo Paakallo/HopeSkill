@@ -22,7 +22,7 @@ public class Main extends Canvas {
     public static void main(String[] args) {
         // initialize game
         Main game = new Main();
-        Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
+        Player player = new Player(30,30, 1);
         if (isRunning){
             //TODO: game menu and logic
             //game.paint();
