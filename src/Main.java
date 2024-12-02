@@ -20,12 +20,14 @@ public class Main extends Canvas {
         new GameWindow(window_width,window_height,"HopeSkill",this);
         //Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
         handler = new ObjectHandler();
+        Player player = new Player(32, 32, 1, handler);
+        handler.addObj(player);
     }
 
     public static void main(String[] args) {
         // initialize game
         Main game = new Main();
-        Player player = new Player(30,30, 1);
+        //Player player = new Player(30,30, 1);
         if (isRunning){
             //TODO: game menu and logic
             //game.paint();

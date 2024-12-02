@@ -1,19 +1,20 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public abstract class GameObject {
     //coordinates
     private float x,y;
     private float vel_x,vel_y;
-
+    private ObjectId id;
     private float width, height;
     private int scale;
 
 
 
-    public GameObject(float x, float y, float width, float height, int scale){
+    public GameObject(float x, float y,ObjectId id, float width, float height, int scale){
         this.x = x*scale;
         this.y = y*scale;
-        
+        this.id = id;
         this.width = width*scale;
         this.height = height*scale;
         this.scale = scale;   
@@ -21,7 +22,8 @@ public abstract class GameObject {
 
     abstract void render(Graphics g);
     abstract void tick();
-
+    abstract Rectangle getBounds();
+    
     public float setX(float x){
         return this.x=x;
     }
