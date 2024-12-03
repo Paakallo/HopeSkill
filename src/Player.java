@@ -8,7 +8,7 @@ public class Player extends GameObject{
     private ObjectHandler handler;
     static float height = 32;
     static float width = 16;
-
+    private boolean jump = false;
 
     public Player(float x, float y, int scale, ObjectHandler handler) {
         super(x, y, ObjectId.Player,width, height, scale);
@@ -67,13 +67,11 @@ public class Player extends GameObject{
         g2d.draw(getBoundsTop());
     }
 
-    public boolean[] getKeys(){
-        return this.mov_keys;
+    public boolean hasJumped(){
+        return jump;
     }
 
-
-    public void setMov_keys(boolean[] mov_keys) {
-        this.mov_keys = mov_keys;
+    public void setJump(boolean jump){
+       this.jump = jump;
     }
-
 }

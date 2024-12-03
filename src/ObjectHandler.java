@@ -4,7 +4,8 @@ import java.util.List;
 
 public class ObjectHandler {
     private List<GameObject> objects;
-    
+    private Player player;
+
     public ObjectHandler(){
         objects = new LinkedList<GameObject>();
     }
@@ -31,5 +32,28 @@ public class ObjectHandler {
 
     public List<GameObject> getObjects(){
         return objects;
+    }
+
+    public int setPlayer(Player player){
+        if (this.player != null){
+            return -1;
+        }
+        addObj(player);
+        this.player = player;
+        return 0;
+    }
+
+    public int removePlayer(){
+        if (player == null){
+            return -1;
+        }
+
+        removeObj(player);
+        this.player = null;
+        return 0;
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 }
