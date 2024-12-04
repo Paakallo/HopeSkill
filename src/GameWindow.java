@@ -3,7 +3,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class GameWindow extends Canvas {
+public class GameWindow{
     private JFrame frame;
     private Dimension size;
 
@@ -22,8 +22,6 @@ public class GameWindow extends Canvas {
         frame.add(game);
         
         frame.setVisible(true);
-    
-    
     }
 
 }

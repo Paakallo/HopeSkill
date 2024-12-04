@@ -5,51 +5,55 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 
-//this is a game loop
+
 public class Main extends Canvas implements Runnable {
 
     
     private static int window_width = 960;
     private static int window_height = 720;
 
-    static boolean isRunning = true;
+    static boolean isRunning;
 
     private ObjectHandler handler;
+    
+    private Thread thread;
 
     public Main(){
         new GameWindow(window_width,window_height,"HopeSkill",this);
-        //Player player = new Player(30,30,(float) window_width,(float) window_height, 1);
         handler = new ObjectHandler();
         handler.setPlayer(new Player(32, 32, 1, handler));
-        this.addKeyListener(new Inputs(handler));
-        //handler.addObj(player);
+        this.addKeyListener(new Inputs(handler));        
     }
 
-    // public static void main(String[] args) {
-    //     // initialize game
-    //     Main game = new Main();
-    //     //Player player = new Player(30,30, 1);
-    //     if (isRunning){
-    //         //TODO: game menu and logic
-    //         //game.paint();
-    //         game.tick();
-    //         game.paint();
-            
-    //     }
-    // }
+    public synchronized void start() {
+        isRunning = true;
+        thread = new Thread(this, "Display");
+        thread.start();
+    }
+
+    public synchronized void stop() {
+        try {
+            isRunning = false;
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         // initialize game
-        new Main();
+        Main game = new Main();
+        game.start();
 
     }
 
-
+    //this is a game loop
     public void run() {
         while (isRunning){
             tick();
             render();
         }
+        stop();
     }
 
     //tick through all game objects
@@ -58,13 +62,23 @@ public class Main extends Canvas implements Runnable {
     }
 
     // render function (I aassume it renders current map)
-    public void render(Graphics g){
+    public void render(){
+        BufferStrategy buf = this.getBufferStrategy();
+        if (buf == null){
+            this.createBufferStrategy(1);
+            return;
+        }
 
+        Graphics g = buf.getDrawGraphics();
+        
+        //g = getGraphics();
         //somehow there will be map
-        // g.setColor(Color.RED);
-        // g.fillRect(50, 50, 100, 100);
+        //g.setColor(Color.RED);
+        //g.fillRect(50, 50, 100, 100);
 
         handler.render(g);
+        g.dispose();
+        buf.show();
     }
 
     
