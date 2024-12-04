@@ -49,7 +49,17 @@ public class Main extends Canvas implements Runnable {
 
     //this is a game loop
     public void run() {
+        final double nsc = 1000000000.0 / 60.0;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+		
         while (isRunning){
+            long now = System.nanoTime();
+		    delta = delta + (now - lastTime) / nsc;
+		    lastTime = now;
+            // while (delta >1){
+            //     tick();
+            // }
             tick();
             render();
         }
@@ -65,7 +75,7 @@ public class Main extends Canvas implements Runnable {
     public void render(){
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null){
-            this.createBufferStrategy(1);
+            this.createBufferStrategy(3);
             return;
         }
 
