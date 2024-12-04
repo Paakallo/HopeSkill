@@ -13,11 +13,9 @@ public class Player extends GameObject{
     public Player(float x, float y, int scale, ObjectHandler handler) {
         super(x, y, ObjectId.Player,width, height, scale);
         this.handler = handler;
-        //setVel_X(5);
-        //setVel_y(5);
     }
 
-    void render(Graphics g){
+    public void render(Graphics g){
         g.setColor(Color.yellow);
         g.fillRect((int)getX(), (int)getY(), (int) width, (int) height);
         showBounds(g);
@@ -27,6 +25,36 @@ public class Player extends GameObject{
         //update position every tick
         setX(getVel_x()+getX());
         setY(getVel_y()+getY());
+        gravity();
+        collision();
+    }
+
+    private void collision(){
+        for (int i=0;i<handler.getObjects().size();i++){
+            GameObject obj = handler.getObjects().get(i);
+
+            // to be expanded for different objects
+            if (obj.getId() == ObjectId.Block){
+                if (getBounds().intersects(obj.getBounds())){
+                    setY(obj.getY()-getHeight());
+                    setVel_y(0);
+                    jump = false;
+                }
+
+                if (getBoundsTop().intersects(obj.getBounds())){
+                    setY(obj.getY()+obj.getHeight());
+                    setVel_y(0);
+                }
+
+                if (getBoundsRight().intersects(obj.getBounds())){
+                    setX(obj.getX()-getWidth());
+                }
+
+                if (getBoundsLeft().intersects(obj.getBounds())){
+                    setX(obj.getX() + getWidth());
+                }
+            }
+        }
     }
 
     public Rectangle getBounds(){
@@ -56,7 +84,7 @@ public class Player extends GameObject{
         5, 
         (int) getHeight() - 10);
     }
-
+    // function for debug purposes
     private void showBounds(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
 
@@ -67,7 +95,7 @@ public class Player extends GameObject{
         g2d.draw(getBoundsTop());
     }
 
-    public boolean hasJumped(){
+    public boolean getJump(){
         return jump;
     }
 

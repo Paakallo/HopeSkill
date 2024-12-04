@@ -1,28 +1,29 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-
+enum GameState {
+    MENU,
+    GAME
+}
 
 public class Main extends Canvas implements Runnable {
-
-    
-    private static int window_width = 960;
+    private static int window_width = 1280;
     private static int window_height = 720;
-
     static boolean isRunning;
+    private GameState state = GameState.MENU;
 
     private ObjectHandler handler;
-    
     private Thread thread;
+    private Menu menu;
 
-    public Main(){
-        new GameWindow(window_width,window_height,"HopeSkill",this);
+    public Main() {
+        new GameWindow(window_width, window_height, "HopeSkill", this);
         handler = new ObjectHandler();
-        handler.setPlayer(new Player(32, 32, 1, handler));
-        this.addKeyListener(new Inputs(handler));        
+        menu = new Menu(this); // Initialize menu
+        this.addMouseListener(menu); // Add mouse listener for menu
+        this.addKeyListener(new Inputs(handler));
     }
 
     public synchronized void start() {
@@ -41,61 +42,53 @@ public class Main extends Canvas implements Runnable {
     }
 
     public static void main(String[] args) {
-        // initialize game
         Main game = new Main();
         game.start();
     }
 
-    //this is a game loop
     public void run() {
-        // final double nsc = 1000000000.0 / 60.0;
-        // double delta = 0;
-        // long lastTime = System.nanoTime();
-		
-        while (isRunning){
-            // long now = System.nanoTime();
-		    // delta = delta + (now - lastTime) / nsc;
-		    // lastTime = now;
-            // while (delta >1){
-            //     tick();
-            // }
+        while (isRunning) {
             tick();
             render();
         }
         stop();
     }
 
-    //tick through all game objects
-    private void tick(){
-        handler.tick();
+    private void tick() {
+        if (state == GameState.GAME) {
+            handler.tick();
+        }
     }
 
-    // render function (I aassume it renders current map)
-    public void render(){
+    public void render() {
         BufferStrategy buf = this.getBufferStrategy();
-        if (buf == null){
+        if (buf == null) {
             this.createBufferStrategy(3);
             return;
         }
 
         Graphics g = buf.getDrawGraphics();
-        
-        //g = getGraphics();
-        //somehow there will be map
-        //g.setColor(Color.RED);
-        //g.fillRect(50, 50, 100, 100);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
 
-        // Clear the screen by filling it with a background color
-        g.setColor(Color.BLACK); // Set the background color
-        g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire screen
+        if (state == GameState.MENU) {
+            menu.render(g);
+        } else if (state == GameState.GAME) {
+            handler.render(g);
+        }
 
-        handler.render(g);
         g.dispose();
         buf.show();
-        //repaint();
     }
 
-    
+    public void startGame() {
+        state = GameState.GAME;
+        handler.setPlayer(new Player(32, 32, 1, handler));
+        for (int i = 0; i < 20; i++) {
+            handler.addObj(new Block(i * 32, 320, 32, 32, 1));
+        }
+    }
+
     public static int getWindowHeight(){
         return window_height;
     }
@@ -103,5 +96,4 @@ public class Main extends Canvas implements Runnable {
     public static int getWindowWidth(){
         return window_width;
     }
-
 }

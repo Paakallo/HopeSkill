@@ -24,6 +24,10 @@ public abstract class GameObject {
     abstract void tick();
     abstract Rectangle getBounds();
     
+    public void gravity(){
+        setVel_y(3);
+    }
+
     public float setX(float x){
         return this.x=x;
     }
@@ -31,9 +35,11 @@ public abstract class GameObject {
         return this.y=y;
     }
 
+
     public float setVel_X(float vel_x){
         return this.vel_x=vel_x;
     }
+
     public float setVel_y(float vel_y){
         return this.vel_y=vel_y;
     }
@@ -42,9 +48,11 @@ public abstract class GameObject {
     public float getX(){
         return this.x;
     }
+
     public float getY(){
         return this.y;
     }
+
 
     public float getVel_x(){
         return this.vel_x;
@@ -61,5 +69,10 @@ public abstract class GameObject {
 
     public float getHeight(){
         return this.height;
+    }
+
+
+    public ObjectId getId(){
+        return this.id;
     }
 }
