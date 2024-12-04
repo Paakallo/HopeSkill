@@ -12,35 +12,6 @@ public class Inputs extends KeyAdapter{
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        // switch (e.getKeyCode()) {
-        //     //jump
-        //     case KeyEvent.VK_W:
-        //         if (!handler.getPlayer().hasJumped()){
-        //             handler.getPlayer().setVel_y(-15);
-        //             keys[0] = true;
-        //             handler.getPlayer().setJump(true);
-        //         }
-        //         break;
-        //     //left
-        //     case KeyEvent.VK_A:
-        //         handler.getPlayer().setVel_X(-8);
-        //         keys[1] = true;
-        //         break;
-        //     //right
-        //     case KeyEvent.VK_D:
-        //         handler.getPlayer().setVel_X(2);
-        //         keys[2] = true;
-        //         break;
-        //     //button for action
-        //     case KeyEvent.VK_S:
-        //         break;
-                
-        //     case KeyEvent.VK_ESCAPE:
-        //         System.exit(0);
-
-        //     default:
-        //         break;
-        // }
 
         //jump
         if (key == KeyEvent.VK_W){
@@ -52,12 +23,12 @@ public class Inputs extends KeyAdapter{
             }
             //left
             if (key == KeyEvent.VK_A){
-                handler.getPlayer().setVel_X(-8);
+                handler.getPlayer().setVel_X(-1);
                 keys[1] = true;
                }
             //right
             if (key == KeyEvent.VK_D){
-                handler.getPlayer().setVel_X(2);
+                handler.getPlayer().setVel_X(1);
                 keys[2] = true;
             }
             //button for action
@@ -70,26 +41,7 @@ public class Inputs extends KeyAdapter{
     }
     
     public void keyReleased(KeyEvent e){
-        // switch (e.getKeyCode()) {
-        //     case KeyEvent.VK_W:
-        //         keys[0] = false;
-        //         break;
-            
-        //     case KeyEvent.VK_A:
-        //         keys[1] = false;
-        //         break;
-
-        //     case KeyEvent.VK_D:
-        //         keys[2] = false;
-        //         break;
-            
-        //     default:
-        //         if (!keys[1] && !keys[2]){
-        //             handler.getPlayer().setVel_X(0);
-        //         }
-        //         break;
-        // }
-
+        
         int key = e.getKeyCode();
         
         if (key == KeyEvent.VK_W){

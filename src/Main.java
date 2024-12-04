@@ -44,19 +44,18 @@ public class Main extends Canvas implements Runnable {
         // initialize game
         Main game = new Main();
         game.start();
-
     }
 
     //this is a game loop
     public void run() {
-        final double nsc = 1000000000.0 / 60.0;
-        double delta = 0;
-        long lastTime = System.nanoTime();
+        // final double nsc = 1000000000.0 / 60.0;
+        // double delta = 0;
+        // long lastTime = System.nanoTime();
 		
         while (isRunning){
-            long now = System.nanoTime();
-		    delta = delta + (now - lastTime) / nsc;
-		    lastTime = now;
+            // long now = System.nanoTime();
+		    // delta = delta + (now - lastTime) / nsc;
+		    // lastTime = now;
             // while (delta >1){
             //     tick();
             // }
@@ -86,9 +85,14 @@ public class Main extends Canvas implements Runnable {
         //g.setColor(Color.RED);
         //g.fillRect(50, 50, 100, 100);
 
+        // Clear the screen by filling it with a background color
+        g.setColor(Color.BLACK); // Set the background color
+        g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire screen
+
         handler.render(g);
         g.dispose();
         buf.show();
+        //repaint();
     }
 
     
