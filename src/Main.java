@@ -1,49 +1,99 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.awt.BorderLayout;
-import java.awt.Button;
+import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Component;
-import javax.swing.BoxLayout;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
-
-public class Main {
-    static boolean isRunning = true;
-    public static void main(String[] args) {
-        
-        if (isRunning){
-            
-        }
-    }
+enum GameState {
+    MENU,
+    GAME
 }
 
+public class Main extends Canvas implements Runnable {
+    private static int window_width = 1280;
+    private static int window_height = 720;
+    static boolean isRunning;
+    private GameState state = GameState.MENU;
 
-//TODO
-class GameMenu extends JFrame{
-    public GameMenu(){
-        setPreferredSize(new Dimension(800, 600));
-        setBackground(Color.RED);
-        setFocusable(true);
+    private ObjectHandler handler;
+    private Thread thread;
+    private Menu menu;
+
+    public Main() {
+        new GameWindow(window_width, window_height, "HopeSkill", this);
+        handler = new ObjectHandler();
+        menu = new Menu(this); // Initialize menu
+        this.addMouseListener(menu); // Add mouse listener for menu
+        this.addKeyListener(new Inputs(handler));
     }
 
-    void mainPage(){
-        // Create a JPanel with a BoxLayout for vertical positioning
-        JPanel buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+    public synchronized void start() {
+        isRunning = true;
+        thread = new Thread(this, "Display");
+        thread.start();
+    }
 
-        JButton start_g = new JButton("Start Game");
-        JButton setting_g = new JButton("Settings");
-        JButton exit_g = new JButton("Exit");
+    public synchronized void stop() {
+        try {
+            isRunning = false;
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-        start_g.setAlignmentX(Component.CENTER_ALIGNMENT);
-        setting_g.setAlignmentX(Component.CENTER_ALIGNMENT);
-        exit_g.setAlignmentX(Component.CENTER_ALIGNMENT);
+    public static void main(String[] args) {
+        Main game = new Main();
+        game.start();
+    }
 
-        buttons.add(start_g);buttons.add(setting_g);buttons.add(exit_g);
+    public void run() {
+        while (isRunning) {
+            tick();
+            render();
+        }
+        stop();
+    }
 
-        this.add(buttons,BorderLayout.CENTER);
+    private void tick() {
+        if (state == GameState.GAME) {
+            handler.tick();
+        }
+    }
+
+    public void render() {
+        BufferStrategy buf = this.getBufferStrategy();
+        if (buf == null) {
+            this.createBufferStrategy(3);
+            return;
+        }
+
+        Graphics g = buf.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        if (state == GameState.MENU) {
+            menu.render(g);
+        } else if (state == GameState.GAME) {
+            handler.render(g);
+        }
+
+        g.dispose();
+        buf.show();
+    }
+
+    public void startGame() {
+        state = GameState.GAME;
+        handler.setPlayer(new Player(32, 32, 1, handler));
+        for (int i = 0; i < 20; i++) {
+            handler.addObj(new Block(i * 32, 320, 32, 32, 1));
+        }
+    }
+
+    public static int getWindowHeight(){
+        return window_height;
+    }
+
+    public static int getWindowWidth(){
+        return window_width;
     }
 }
