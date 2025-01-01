@@ -6,9 +6,8 @@ import java.awt.Rectangle;
 public class Block extends GameObject{
     
     private ObjectHandler handler;
-    static float height = 32;
+    static float height = 16;
     static float width = 16;
-    private boolean jump = false;
 
     public Block(float x, float y, int height, int width, int scale) {
         super(x, y, ObjectId.Block,width, height, scale);
