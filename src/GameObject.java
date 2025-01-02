@@ -25,7 +25,7 @@ public abstract class GameObject {
     abstract Rectangle getBounds();
     
     public void gravity(){
-        setVel_y(3);
+        setVel_y(1);
     }
 
     public float setX(float x){

@@ -23,8 +23,8 @@ public class Player extends GameObject{
 
     public void tick(){
         //update position every tick
-        setX(getVel_x()+getX());
-        setY(getVel_y()+getY());
+        setX(getVel_x()*0.1f+getX()); // 0.1f - add friction
+        setY(getVel_y()*0.1f+getY());
         gravity();
         collision();
     }
