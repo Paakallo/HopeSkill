@@ -73,4 +73,11 @@ public class ObjectHandler {
     public Player getPlayer(){
         return player;
     }
+
+    public void removeObjects(){
+        if (objects.size() == 0) ;
+        for (int i = 0; i < objects.size(); i++) {
+            objects.remove(objects.get(i));
+        }
+    }
 }

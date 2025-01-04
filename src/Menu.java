@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 
 public class Menu extends MouseAdapter {
     public Main game;
-
+    public boolean clicked = false;
     public Menu(Main game) {
         this.game = game;
     }
@@ -27,6 +27,8 @@ public class Menu extends MouseAdapter {
         // Check if "Start Game" is clicked
         if (mx >= 400 && mx <= 600 && my >= 300 && my <= 350) {
             game.startGame();
+            //game.stopThread();
+            //clicked = true;
         }
     }
 }

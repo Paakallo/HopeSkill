@@ -1,7 +1,11 @@
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferStrategy;
+
+import org.w3c.dom.events.MouseEvent;
 
 enum GameState {
     MENU,
@@ -9,50 +13,82 @@ enum GameState {
 }
 
 public class Main extends Canvas implements Runnable {
-    private static int window_width = 1280;
-    private static int window_height = 720;
-    static boolean isRunning;
-    private GameState state = GameState.GAME;
+    private static final int WINDOW_WIDTH = 1280;
+    private static final int WINDOW_HEIGHT = 720;
+
+    private GameState state = GameState.MENU;
 
     private ObjectHandler handler;
-    private Thread thread;
-    private Menu menu;
+    private Thread menuThread;
+    private Thread gameThread;
 
     public Main() {
-        new GameWindow(window_width, window_height, "HopeSkill", this);
+        new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
-        menu = new Menu(this); // Initialize menu
-        this.addMouseListener(menu); // Add mouse listener for menu
         this.addKeyListener(new Inputs(handler));
     }
 
-    public synchronized void start() {
-        isRunning = true;
-        startGame();
-        thread = new Thread(this, "Display");
-        thread.start();
+    public synchronized void startMenu() {
+        menuThread = new Thread(() -> {
+            Menu menu = new Menu(this);
+            this.addMouseListener(menu);
+            while (state == GameState.MENU) {
+                renderMenu();
+                try {
+                    Thread.sleep(16); // Approx. 60 FPS
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+            stopMenu();
+            startGame();
+        }, "MenuThread");
+        menuThread.start();
     }
 
-    public synchronized void stop() {
-        try {
-            isRunning = false;
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private synchronized void stopMenu() {
+        if (menuThread != null && menuThread.isAlive()) {
+            menuThread.interrupt();
+            try {
+                menuThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
-    public static void main(String[] args) {
-        Main game = new Main();
-        game.start();
+    public synchronized void startGame() {
+        state = GameState.GAME;
+        poziom1();
+        gameThread = new Thread(this, "GameThread");
+        gameThread.start();
     }
 
+    @Override
     public void run() {
-        while (isRunning) {
+        while (state == GameState.GAME) {
             tick();
-            render();
+            renderGame();
+            try {
+                Thread.sleep(16); // Approx. 60 FPS
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
-        stop();
+        stopGame();
+    }
+
+    private synchronized void stopGame() {
+        if (gameThread != null && gameThread.isAlive()) {
+            gameThread.interrupt();
+            try {
+                gameThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     private void tick() {
@@ -61,28 +97,42 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
-    public void render() {
+    private void renderMenu() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
             this.createBufferStrategy(3);
             return;
         }
-
         Graphics g = buf.getDrawGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
-
-        if (state == GameState.MENU) {
-            menu.render(g);
-        } else if (state == GameState.GAME) {
-            handler.render(g);
-        }
-
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 50));
+        g.drawString("Game Menu", 400, 200);
+        g.setFont(new Font("Arial", Font.PLAIN, 30));
+        g.drawRect(400, 300, 200, 50);
+        g.drawString("Start Game", 420, 335);
         g.dispose();
         buf.show();
     }
 
-    public void startGame() {
+    private void renderGame() {
+        BufferStrategy buf = this.getBufferStrategy();
+        if (buf == null) {
+            this.createBufferStrategy(3);
+            return;
+        }
+        Graphics g = buf.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        handler.render(g);
+        g.dispose();
+        buf.show();
+    }
+
+
+    //poziomy
+    void poziom1(){
         state = GameState.GAME;
         handler.setPlayer(new Player(32, 32, 1, handler));
         for (int i = 0; i < 20; i++) {
@@ -91,11 +141,8 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
-    public static int getWindowHeight(){
-        return window_height;
-    }
-
-    public static int getWindowWidth(){
-        return window_width;
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.startMenu();
     }
 }
