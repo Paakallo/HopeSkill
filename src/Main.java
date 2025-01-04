@@ -12,7 +12,7 @@ public class Main extends Canvas implements Runnable {
     private static int window_width = 1280;
     private static int window_height = 720;
     static boolean isRunning;
-    private GameState state = GameState.MENU;
+    private GameState state = GameState.GAME;
 
     private ObjectHandler handler;
     private Thread thread;
@@ -28,6 +28,7 @@ public class Main extends Canvas implements Runnable {
 
     public synchronized void start() {
         isRunning = true;
+        startGame();
         thread = new Thread(this, "Display");
         thread.start();
     }
@@ -85,7 +86,8 @@ public class Main extends Canvas implements Runnable {
         state = GameState.GAME;
         handler.setPlayer(new Player(32, 32, 1, handler));
         for (int i = 0; i < 20; i++) {
-            handler.addObj(new Block(i * 32, 320, 32, 32, 1));
+            handler.addObj(new Block(i * 16, 320, 32, 32, 1));
+            handler.addObj(new Block(i * 16, 120, 32, 32, 1));
         }
     }
 

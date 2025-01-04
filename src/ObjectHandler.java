@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +11,22 @@ public class ObjectHandler {
         objects = new LinkedList<GameObject>();
     }
 
-    public void tick(){
-        for (GameObject obj: objects){
+    // public void tick(){
+    //     for (GameObject obj: objects){
+    //         obj.tick();
+    //     }
+    // }
+    
+    //Using iterator prevents ConcurrentModificationException
+    public void tick() {
+        Iterator<GameObject> it = objects.iterator();
+        while (it.hasNext()) {
+            GameObject obj = it.next();
             obj.tick();
+            // Use it.remove() if removal is needed
         }
     }
+    
 
     public void render(Graphics g){
         for (GameObject obj: objects){
