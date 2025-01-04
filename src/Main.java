@@ -9,7 +9,12 @@ import org.w3c.dom.events.MouseEvent;
 
 enum GameState {
     MENU,
-    GAME
+    GAME,
+    L1,
+    L2,
+    L3,
+    L4,
+    L5
 }
 
 public class Main extends Canvas implements Runnable {
@@ -42,7 +47,7 @@ public class Main extends Canvas implements Runnable {
                 }
             }
             stopMenu();
-            startGame();
+            //startGame();
         }, "MenuThread");
         menuThread.start();
     }
@@ -57,17 +62,17 @@ public class Main extends Canvas implements Runnable {
             }
         }
     }
-
-    public synchronized void startGame() {
-        state = GameState.GAME;
-        poziom1();
-        gameThread = new Thread(this, "GameThread");
-        gameThread.start();
-    }
+    // this function will run
+    // public synchronized void startGame() {
+    //     state = GameState.GAME;
+    //     poziom1();
+    //     gameThread = new Thread(this, "GameThread");
+    //     gameThread.start();
+    // }
 
     @Override
     public void run() {
-        while (state == GameState.GAME) {
+        while (state != GameState.MENU) {
             tick();
             renderGame();
             try {
@@ -92,7 +97,7 @@ public class Main extends Canvas implements Runnable {
     }
 
     private void tick() {
-        if (state == GameState.GAME) {
+        if (state != GameState.MENU) {
             handler.tick();
         }
     }
@@ -112,6 +117,10 @@ public class Main extends Canvas implements Runnable {
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawRect(400, 300, 200, 50);
         g.drawString("Start Game", 420, 335);
+
+        g.setFont(new Font("Arial", Font.PLAIN, 30));
+        g.drawRect(100, 100, 200, 50);
+        g.drawString("Level 2", 120, 135);
         g.dispose();
         buf.show();
     }
@@ -133,12 +142,27 @@ public class Main extends Canvas implements Runnable {
 
     //poziomy
     void poziom1(){
-        state = GameState.GAME;
+        state = GameState.L1;
         handler.setPlayer(new Player(32, 32, 1, handler));
         for (int i = 0; i < 20; i++) {
             handler.addObj(new Block(i * 16, 320, 32, 32, 1));
             handler.addObj(new Block(i * 16, 120, 32, 32, 1));
         }
+
+        gameThread = new Thread(this, "Level1");
+        gameThread.start();
+    }
+
+
+    void poziom2(){
+        state = GameState.L2;
+        handler.setPlayer(new Player(32, 32, 1, handler));
+        for (int i = 0; i < 20; i++) {
+            handler.addObj(new Block(i * 16, 320, 32, 32, 1));
+            //handler.addObj(new Block(i * 16, 120, 32, 32, 1));
+        }
+        gameThread = new Thread(this, "Level2");
+        gameThread.start();
     }
 
     public static void main(String[] args) {
