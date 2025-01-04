@@ -23,15 +23,20 @@ public class ObjectHandler {
         while (it.hasNext()) {
             GameObject obj = it.next();
             obj.tick();
-            // Use it.remove() if removal is needed
         }
     }
     
 
     public void render(Graphics g){
-        for (GameObject obj: objects){
+        Iterator<GameObject> it = objects.iterator();
+        while (it.hasNext()) {
+            GameObject obj = it.next();
             obj.render(g);
         }
+        
+        // for (GameObject obj: objects){
+        //     obj.render(g);
+        // }
     }
 
     public void addObj(GameObject obj){
