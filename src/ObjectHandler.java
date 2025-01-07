@@ -77,10 +77,11 @@ public class ObjectHandler {
 
 
     public void removeObjects(){
-        if (objects.size() == 0) ;
-        for (int i = 0; i < objects.size(); i++) {
-            objects.remove(objects.get(i));
-        }
+        // if (objects.size() == 0) ;
+        // for (int i = 0; i < objects.size(); i++) {
+        //     objects.remove(objects.get(i));
+        // }
+        objects.clear();
         System.out.println(objects.size());
     }
 
