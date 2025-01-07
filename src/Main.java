@@ -62,7 +62,7 @@ public class Main extends Canvas implements Runnable {
         },"MenuThread");
         menuThread.start();
     }
-
+    // function for debug purposes
     private synchronized void stopMenu() {
         if (menuThread != null && menuThread.isAlive()) {
             menuThread.interrupt();
@@ -98,6 +98,10 @@ public class Main extends Canvas implements Runnable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            // free all the resources
+            handler.removePlayer();
+            handler.removeObjects();
+            // without these 2 lines, it would work like a continue button :D
         }
     }
 
@@ -130,7 +134,7 @@ public class Main extends Canvas implements Runnable {
         }
         Graphics g = buf.getDrawGraphics();
         g.setColor(Color.BLACK);
-        g.fillRect(0, 100, getWidth(), getHeight());
+        g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
         handler.render(g); //renders all level objects
         g.dispose();
         buf.show();

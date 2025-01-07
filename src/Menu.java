@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Menu extends MouseAdapter {
     public Main game;
-    public boolean clicked = false;
+    public boolean startGameClicked = false;
     //graphics
     private BufferedImage backgroundImage;
 
@@ -36,16 +36,25 @@ public class Menu extends MouseAdapter {
                 g.fillRect(0, 0, game.getWidth(), game.getHeight());
             }
 
-            // Render menu text and buttons
-            g.setColor(Color.WHITE);
-            // g.setFont(new Font("Arial", Font.BOLD, 50));
-            // g.drawString("Game Menu", 400, 200);
-            g.setFont(new Font("Arial", Font.PLAIN, 30));
-            g.drawRect(510, 300, 200, 50);
-            g.drawString("Start Game", 530, 335);
+            if (!startGameClicked) {
+                // Render menu text and buttons
+                g.setColor(Color.WHITE);
+                // g.setFont(new Font("Arial", Font.BOLD, 50));
+                // g.drawString("Game Menu", 400, 200);
+                g.setFont(new Font("Arial", Font.PLAIN, 30));
+                g.drawRect(510, 300, 200, 50);
+                g.drawString("Start Game", 530, 335);
 
-            g.drawRect(100, 100, 200, 50);
-            g.drawString("Level 2", 120, 135);
+                g.drawRect(100, 100, 200, 50);
+                g.drawString("Level 2", 120, 135);
+            } else {
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial", Font.PLAIN, 30));
+                g.drawRect(510, 300, 200, 50);
+                g.drawString("1", 530, 335);
+
+            }
+
         }
 
         else {
@@ -62,14 +71,19 @@ public class Menu extends MouseAdapter {
         if (game.getGameState() == GameState.MENU) {
             // Check if "Start Game" is clicked
             if (mx >= 400 && mx <= 600 && my >= 300 && my <= 350) {
-                game.poziom1();
-                //game.stopThread();
-                //clicked = true;
+                startGameClicked = true;
+                
             }
-            if (mx >= 100 && mx <= 300 && my >= 100 && my <= 150){
+
+            if (mx >= 100 && mx <= 300 && my >= 100 && my <= 150) {
                 game.poziom2();
-                //game.stopThread();
-                //clicked = true;
+                
+            }
+            // level 1 clicked
+            if (mx >= 0 && mx <= 200 && my >= 0 && my <= 350 && startGameClicked) {
+                game.poziom1();
+                startGameClicked = false;
+                
             }
         } else {
             if (mx >= 0 && mx <= 200 && my >= 0 && my <= 50) {  
