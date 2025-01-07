@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Iterator;
 
+
 public class Player extends GameObject{
     
     private ObjectHandler handler;
@@ -24,6 +25,7 @@ public class Player extends GameObject{
 
     public void tick(){
         //update position every tick
+
         setX(getVel_x()+getX());
         setY(getVel_y()+getY());
         gravity();
@@ -34,6 +36,7 @@ public class Player extends GameObject{
         Iterator<GameObject> it = handler.getObjects().iterator();
         while (it.hasNext()) {
             GameObject obj = it.next();
+
             // to be expanded for different objects
             if (obj.getId() == ObjectId.Block){
                 if (getBounds().intersects(obj.getBounds())){
@@ -56,6 +59,7 @@ public class Player extends GameObject{
                 }
             }
         }
+
 
         // for (int i=0;i<handler.getObjects().size();i++){
         //     GameObject obj = handler.getObjects().get(i);
@@ -82,6 +86,7 @@ public class Player extends GameObject{
         //         }
         //     }
         // }
+
     }
 
     public Rectangle getBounds(){

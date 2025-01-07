@@ -6,17 +6,24 @@ import java.awt.Rectangle;
 public class Block extends GameObject{
     
     private ObjectHandler handler;
+
     static float height = 16;
     static float width = 16;
+
+
 
     public Block(float x, float y, int height, int width, int scale) {
         super(x, y, ObjectId.Block,width, height, scale);
         this.handler = handler;
+
+
     }
 
     public void render(Graphics g){
         g.setColor(Color.white);
         g.drawRect((int)getX(), (int)getY(), (int) width, (int) height);
+
+
         
     }
 
@@ -32,5 +39,6 @@ public class Block extends GameObject{
         (int) getWidth(), 
         (int) getHeight());
     }
+
 
 }

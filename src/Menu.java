@@ -61,12 +61,14 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
             g.drawRect(0, 0, 200, 50);
         }
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
+
 
         if (game.getGameState() == GameState.MENU) {
             // Check if "Start Game" is clicked
@@ -89,6 +91,7 @@ public class Menu extends MouseAdapter {
             if (mx >= 0 && mx <= 200 && my >= 0 && my <= 50) {  
                 game.setGameState(GameState.MENU); // switch to menu
             }
+
         }
     }
 }

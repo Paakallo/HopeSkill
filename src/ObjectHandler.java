@@ -37,6 +37,7 @@ public class ObjectHandler {
         // for (GameObject obj: objects){
         //     obj.render(g);
         // }
+
     }
 
     public void addObj(GameObject obj){
@@ -74,10 +75,12 @@ public class ObjectHandler {
         return player;
     }
 
+
     public void removeObjects(){
         if (objects.size() == 0) ;
         for (int i = 0; i < objects.size(); i++) {
             objects.remove(objects.get(i));
         }
     }
+
 }

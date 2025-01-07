@@ -181,5 +181,6 @@ public class Main extends Canvas implements Runnable {
     //???
     void setGameState(GameState nState){
         state=nState;  
+
     }
 }
