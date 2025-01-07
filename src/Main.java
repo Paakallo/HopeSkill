@@ -158,7 +158,7 @@ public class Main extends Canvas implements Runnable {
 
     void poziom2(){
         state = GameState.L2;
-        handler.setPlayer(new Player(32, 32, 1, handler));
+        // handler.setPlayer(new Player(32, 32, 1, handler));
         // for (int i = 0; i < 20; i++) {
         //     handler.addObj(new Block(i * 16, 320, 32, 32, 1));
         //     //handler.addObj(new Block(i * 16, 120, 32, 32, 1));

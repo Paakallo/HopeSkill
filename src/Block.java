@@ -7,13 +7,15 @@ public class Block extends GameObject{
     
     private ObjectHandler handler;
 
-    static float height = 16;
-    static float width = 16;
+    float height = 16;
+    float width = 16;
 
 
 
     public Block(float x, float y, int height, int width, int scale) {
         super(x, y, ObjectId.Block,width, height, scale);
+        this.height = height;
+        this.width = width;
         this.handler = handler;
 
 
