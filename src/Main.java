@@ -47,7 +47,8 @@ public class Main extends Canvas implements Runnable {
     public synchronized void startMenu() {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
-            while (state == GameState.MENU) {
+            // for now True, as it will render only parts dependent on GameState
+            while (true) {
                 renderMenu();
                 try {
                     Thread.sleep(16); // Approx. 60 FPS
@@ -56,7 +57,8 @@ public class Main extends Canvas implements Runnable {
                     break;
                 }
             }
-            stopMenu();
+            // stopMenu();
+            
         },"MenuThread");
         menuThread.start();
     }
@@ -85,20 +87,6 @@ public class Main extends Canvas implements Runnable {
             }
         }
         stopGame();
-    
-        
-        // while (state == GameState.MENU) {
-        //     //System.out.print("cos");
-        //     renderMenu();
-        //     try {
-        //         Thread.sleep(16); // Approx. 60 FPS
-        //     } catch (InterruptedException e) {
-        //         Thread.currentThread().interrupt();
-        //         break;
-        //     }
-        // }
-        // stopMenu();
-        
     }
 
 
@@ -126,27 +114,6 @@ public class Main extends Canvas implements Runnable {
             return;
         }
         Graphics g = buf.getDrawGraphics();
-        // // Draw the background image
-        // if (backgroundImage != null) {
-        //     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
-        // } else {
-        //     g.setColor(Color.BLACK);
-        //     g.fillRect(0, 0, getWidth(), getHeight());
-        // }
-
-        // // Render menu text and buttons
-        // g.setColor(Color.WHITE);
-        // // g.setFont(new Font("Arial", Font.BOLD, 50));
-        // // g.drawString("Game Menu", 400, 200);
-        // g.setFont(new Font("Arial", Font.PLAIN, 30));
-        // g.drawRect(510, 300, 200, 50);
-        // g.drawString("Start Game", 530, 335);
-
-        // g.drawRect(100, 100, 200, 50);
-        // g.drawString("Level 2", 120, 135);
-
-        // g.dispose();
-        // buf.show();
 
         menu.render(g);
 
@@ -163,7 +130,7 @@ public class Main extends Canvas implements Runnable {
         }
         Graphics g = buf.getDrawGraphics();
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        g.fillRect(0, 100, getWidth(), getHeight());
         handler.render(g); //renders all level objects
         g.dispose();
         buf.show();
@@ -201,5 +168,14 @@ public class Main extends Canvas implements Runnable {
         Main main = new Main();
         
         main.startMenu();
+    }
+
+
+    GameState getGameState(){
+        return state;
+    }
+    //???
+    void setGameState(GameState nState){
+        state=nState;  
     }
 }
