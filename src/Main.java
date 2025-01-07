@@ -111,6 +111,7 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
+
     private void renderMenu() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
@@ -152,8 +153,6 @@ public class Main extends Canvas implements Runnable {
 
         gameThread = new Thread(this, "Level1");
         gameThread.start();
-
-        // TODO: level transition with stopGame()
     }
 
 
@@ -164,6 +163,10 @@ public class Main extends Canvas implements Runnable {
             handler.addObj(new Block(i * 16, 320, 32, 32, 1));
             //handler.addObj(new Block(i * 16, 120, 32, 32, 1));
         }
+
+        // MapLoader mapLoader = new MapLoader(handler);
+        // mapLoader.loadMap("maps/test.json");
+
         gameThread = new Thread(this, "Level2");
         gameThread.start();
     }
@@ -178,7 +181,7 @@ public class Main extends Canvas implements Runnable {
     GameState getGameState(){
         return state;
     }
-    //???
+    
     void setGameState(GameState nState){
         state=nState;  
 

@@ -81,6 +81,7 @@ public class ObjectHandler {
         for (int i = 0; i < objects.size(); i++) {
             objects.remove(objects.get(i));
         }
+        System.out.println(objects.size());
     }
 
 }
