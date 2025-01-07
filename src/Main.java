@@ -1,99 +1,186 @@
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.w3c.dom.events.MouseEvent;
 
 enum GameState {
     MENU,
-    GAME
+    GAME,
+    L1,
+    L2,
+    L3,
+    L4,
+    L5
 }
 
 public class Main extends Canvas implements Runnable {
-    private static int window_width = 1280;
-    private static int window_height = 720;
-    static boolean isRunning;
+    private static final int WINDOW_WIDTH = 1280;
+    private static final int WINDOW_HEIGHT = 720;
+
     private GameState state = GameState.MENU;
 
     private ObjectHandler handler;
-    private Thread thread;
+    //threads
+    private Thread menuThread;
+    private Thread gameThread;
+
     private Menu menu;
 
     public Main() {
-        new GameWindow(window_width, window_height, "HopeSkill", this);
+        new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
-        menu = new Menu(this); // Initialize menu
-        this.addMouseListener(menu); // Add mouse listener for menu
         this.addKeyListener(new Inputs(handler));
+
+        menu = new Menu(this);
+        this.addMouseListener(menu);
     }
 
-    public synchronized void start() {
-        isRunning = true;
-        thread = new Thread(this, "Display");
-        thread.start();
+    public synchronized void startMenu() {
+        state = GameState.MENU;
+        menuThread = new Thread(() -> {
+            // for now True, as it will render only parts dependent on GameState
+            while (true) {
+                renderMenu();
+                try {
+                    Thread.sleep(16); // Approx. 60 FPS
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+            // stopMenu();
+            
+        },"MenuThread");
+        menuThread.start();
     }
-
-    public synchronized void stop() {
-        try {
-            isRunning = false;
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    // function for debug purposes
+    private synchronized void stopMenu() {
+        if (menuThread != null && menuThread.isAlive()) {
+            menuThread.interrupt();
+            try {
+                menuThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
-    public static void main(String[] args) {
-        Main game = new Main();
-        game.start();
-    }
-
+    @Override
     public void run() {
-        while (isRunning) {
+        while (state != GameState.MENU) {
             tick();
-            render();
+            renderGame();
+            try {
+                Thread.sleep(16); // Approx. 60 FPS
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
-        stop();
+        stopGame();
+    }
+
+
+    private synchronized void stopGame() {
+        if (gameThread != null && gameThread.isAlive()) {
+            gameThread.interrupt();
+            try {
+                gameThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            // free all the resources
+            handler.removePlayer();
+            handler.removeObjects();
+            // without these 2 lines, it would work like a continue button :D
+        }
     }
 
     private void tick() {
-        if (state == GameState.GAME) {
+        if (state != GameState.MENU) {
             handler.tick();
         }
     }
 
-    public void render() {
+    private void renderMenu() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
             this.createBufferStrategy(3);
             return;
         }
-
         Graphics g = buf.getDrawGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
 
-        if (state == GameState.MENU) {
-            menu.render(g);
-        } else if (state == GameState.GAME) {
-            handler.render(g);
-        }
+        menu.render(g);
 
         g.dispose();
         buf.show();
     }
 
-    public void startGame() {
-        state = GameState.GAME;
+
+    private void renderGame() {
+        BufferStrategy buf = this.getBufferStrategy();
+        if (buf == null) {
+            this.createBufferStrategy(3);
+            return;
+        }
+        Graphics g = buf.getDrawGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
+        handler.render(g); //renders all level objects
+        g.dispose();
+        buf.show();
+    }
+
+
+    //poziomy
+    void poziom1(){
+        state = GameState.L1;
         handler.setPlayer(new Player(32, 32, 1, handler));
         for (int i = 0; i < 20; i++) {
-            handler.addObj(new Block(i * 32, 320, 32, 32, 1));
+            handler.addObj(new Block(i * 16, 320, 32, 32, 1));
+            handler.addObj(new Block(i * 16, 120, 32, 32, 1));
         }
+
+        gameThread = new Thread(this, "Level1");
+        gameThread.start();
+
+        // TODO: level transition with stopGame()
     }
 
-    public static int getWindowHeight(){
-        return window_height;
+
+    void poziom2(){
+        state = GameState.L2;
+        handler.setPlayer(new Player(32, 32, 1, handler));
+        for (int i = 0; i < 20; i++) {
+            handler.addObj(new Block(i * 16, 320, 32, 32, 1));
+            //handler.addObj(new Block(i * 16, 120, 32, 32, 1));
+        }
+        gameThread = new Thread(this, "Level2");
+        gameThread.start();
     }
 
-    public static int getWindowWidth(){
-        return window_width;
+    public static void main(String[] args) {
+        Main main = new Main();
+        
+        main.startMenu();
+    }
+
+
+    GameState getGameState(){
+        return state;
+    }
+    //???
+    void setGameState(GameState nState){
+        state=nState;  
+
     }
 }
