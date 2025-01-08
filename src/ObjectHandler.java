@@ -10,12 +10,6 @@ public class ObjectHandler {
     public ObjectHandler(){
         objects = new LinkedList<GameObject>();
     }
-
-    // public void tick(){
-    //     for (GameObject obj: objects){
-    //         obj.tick();
-    //     }
-    // }
     
     //Using iterator prevents ConcurrentModificationException
     public void tick() {
@@ -33,11 +27,6 @@ public class ObjectHandler {
             GameObject obj = it.next();
             obj.render(g);
         }
-        
-        // for (GameObject obj: objects){
-        //     obj.render(g);
-        // }
-
     }
 
     public void addObj(GameObject obj){
@@ -77,10 +66,6 @@ public class ObjectHandler {
 
 
     public void removeObjects(){
-        // if (objects.size() == 0) ;
-        // for (int i = 0; i < objects.size(); i++) {
-        //     objects.remove(objects.get(i));
-        // }
         objects.clear();
         System.out.println(objects.size());
     }

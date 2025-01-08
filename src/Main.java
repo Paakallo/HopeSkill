@@ -2,6 +2,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -23,12 +24,13 @@ enum GameState {
 }
 
 public class Main extends Canvas implements Runnable {
-    private static final int WINDOW_WIDTH = 1280;
-    private static final int WINDOW_HEIGHT = 720;
+    public static final int WINDOW_WIDTH = 1280;
+    public static final int WINDOW_HEIGHT = 720;
 
     private GameState state = GameState.MENU;
 
     private ObjectHandler handler;
+    private Camera camera;
     //threads
     private Thread menuThread;
     private Thread gameThread;
@@ -42,6 +44,8 @@ public class Main extends Canvas implements Runnable {
 
         menu = new Menu(this);
         this.addMouseListener(menu);
+
+        camera = new Camera(0, 0); // Initialize camera at (0, 0)
     }
 
     public synchronized void startMenu() {
@@ -108,6 +112,11 @@ public class Main extends Canvas implements Runnable {
     private void tick() {
         if (state != GameState.MENU) {
             handler.tick();
+
+            // Update the camera to follow the player
+            if (handler.getPlayer() != null) {
+                camera.tick(handler.getPlayer());
+            }
         }
     }
 
@@ -127,6 +136,20 @@ public class Main extends Canvas implements Runnable {
     }
 
 
+    // private void renderGame() {
+    //     BufferStrategy buf = this.getBufferStrategy();
+    //     if (buf == null) {
+    //         this.createBufferStrategy(3);
+    //         return;
+    //     }
+    //     Graphics g = buf.getDrawGraphics();
+    //     g.setColor(Color.BLACK);
+    //     g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
+    //     handler.render(g); //renders all level objects
+    //     g.dispose();
+    //     buf.show();
+    // }
+
     private void renderGame() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
@@ -136,11 +159,17 @@ public class Main extends Canvas implements Runnable {
         Graphics g = buf.getDrawGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
-        handler.render(g); //renders all level objects
+    
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(-camera.getX(), -camera.getY()); // Shift the view based on camera
+    
+        handler.render(g2d); // Render objects relative to camera position
+    
+        g2d.translate(camera.getX(), camera.getY()); // Reset translation
         g.dispose();
         buf.show();
     }
-
+    
 
     //poziomy
     void poziom1(){

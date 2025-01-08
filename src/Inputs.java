@@ -25,12 +25,12 @@ public class Inputs extends KeyAdapter{
             }
             //left
             if (key == KeyEvent.VK_A){
-                handler.getPlayer().setVel_X(-1);
+                handler.getPlayer().setVel_X(-5);
                 keys[1] = true;
                }
             //right
             if (key == KeyEvent.VK_D){
-                handler.getPlayer().setVel_X(1);
+                handler.getPlayer().setVel_X(5);
                 keys[2] = true;
             }
             //button for action

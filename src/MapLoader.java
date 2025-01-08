@@ -37,31 +37,33 @@ public class MapLoader {
             }
 
             // Parse pipes
-            JSONArray pipes = json.getJSONArray("Pipe");
-            for (int i = 0; i < pipes.length(); i++) {
-                JSONObject pipe = pipes.getJSONObject(i);
-                handler.addObj(new Pipe(
-                    pipe.getInt("x"),
-                    pipe.getInt("y"),
-                    pipe.getInt("height"),
-                    pipe.getInt("width"),
-                        1 // Assuming scale is 1
-                ));
+            if (json.has("Pipe")) {
+                JSONArray pipes = json.getJSONArray("Pipe");
+                for (int i = 0; i < pipes.length(); i++) {
+                    JSONObject pipe = pipes.getJSONObject(i);
+                    handler.addObj(new Pipe(
+                        pipe.getInt("x"),
+                        pipe.getInt("y"),
+                        pipe.getInt("height"),
+                        pipe.getInt("width"),
+                            1 // Assuming scale is 1
+                    ));
+                }
             }
-
             // Parse platforms
-            JSONArray platforms = json.getJSONArray("Pipe");
-            for (int i = 0; i < platforms.length(); i++) {
-                JSONObject platform = platforms.getJSONObject(i);
-                handler.addObj(new Platform(
-                    platform.getInt("x"),
-                    platform.getInt("y"),
-                    platform.getInt("height"),
-                    platform.getInt("width"),
-                        1 // Assuming scale is 1
-                ));
+            if (json.has("Platform")) {
+                JSONArray platforms = json.getJSONArray("Platform");
+                for (int i = 0; i < platforms.length(); i++) {
+                    JSONObject platform = platforms.getJSONObject(i);
+                    handler.addObj(new Platform(
+                        platform.getInt("x"),
+                        platform.getInt("y"),
+                        platform.getInt("height"),
+                        platform.getInt("width"),
+                            1 // Assuming scale is 1
+                    ));
+                }
             }
-
             // Parse Player
             JSONObject player = json.getJSONObject("Player");
             handler.setPlayer(new Player(
