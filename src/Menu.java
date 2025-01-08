@@ -39,8 +39,6 @@ public class Menu extends MouseAdapter {
             if (!startGameClicked) {
                 // Render menu text and buttons
                 g.setColor(Color.WHITE);
-                // g.setFont(new Font("Arial", Font.BOLD, 50));
-                // g.drawString("Game Menu", 400, 200);
                 g.setFont(new Font("Arial", Font.PLAIN, 30));
                 g.drawRect(510, 300, 200, 50);
                 g.drawString("Start Game", 530, 335);
@@ -55,9 +53,7 @@ public class Menu extends MouseAdapter {
 
             }
 
-        }
-
-        else {
+        } else { //draw in-game menu bar
             g.setColor(Color.WHITE);
             g.drawRect(0, 0, 200, 50);
         }

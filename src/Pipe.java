@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Block extends GameObject{
+public class Pipe extends GameObject{
     
     private ObjectHandler handler;
 
@@ -18,7 +18,7 @@ public class Block extends GameObject{
     //textures
     private BufferedImage grass;
 
-    public Block(float x, float y, int height, int width, int scale) {
+    public Pipe(float x, float y, int height, int width, int scale) {
         super(x, y, ObjectId.Block,width, height, scale);
         this.height = height;
         this.width = width;
@@ -26,7 +26,7 @@ public class Block extends GameObject{
 
         //initialize textures
         try {
-            grass = ImageIO.read(new File("resources/grass.png"));
+            grass = ImageIO.read(new File("resources/pipe.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

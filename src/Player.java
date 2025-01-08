@@ -59,34 +59,6 @@ public class Player extends GameObject{
                 }
             }
         }
-
-
-        // for (int i=0;i<handler.getObjects().size();i++){
-        //     GameObject obj = handler.getObjects().get(i);
-
-        //     to be expanded for different objects
-        //     if (obj.getId() == ObjectId.Block){
-        //         if (getBounds().intersects(obj.getBounds())){
-        //             setY(obj.getY()-getHeight());
-        //             setVel_y(0);
-        //             jump = false;
-        //         }
-
-        //         if (getBoundsTop().intersects(obj.getBounds())){
-        //             setY(obj.getY()+obj.getHeight());
-        //             setVel_y(0);
-        //         }
-
-        //         if (getBoundsRight().intersects(obj.getBounds())){
-        //             setX(obj.getX()-getWidth());
-        //         }
-
-        //         if (getBoundsLeft().intersects(obj.getBounds())){
-        //             setX(obj.getX() + getWidth());
-        //         }
-        //     }
-        // }
-
     }
 
     public Rectangle getBounds(){
