@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 public class Menu extends MouseAdapter {
     public Main game;
     public boolean startGameClicked = false;
+
     //graphics
     private BufferedImage backgroundImage;
     private BufferedImage playButton;
@@ -128,6 +129,7 @@ public class Menu extends MouseAdapter {
             // Check if "Start Game" is clicked
             if (mx >= PLAY_BUTTON_X && mx <= PLAY_BUTTON_X + BUTTON_WIDTH && my >= PLAY_BUTTON_Y && my <= PLAY_BUTTON_Y + BUTTON_HEIGHT) {
                 startGameClicked = true;
+                return; // ensures that a click on Start Game doesn't click any level behind it automatically!
                 
             }
             
@@ -135,18 +137,21 @@ public class Menu extends MouseAdapter {
             if (mx >= RETURN_BUTTON_X && mx <= BUTTON_WIDTH && my >= RETURN_BUTTON_Y && my <= RETURN_BUTTON_HEIGHT) {  
                 game.setGameState(GameState.MENU); // switch to menu
                 startGameClicked = false; // in case button was clicked in the menu
+                return;
             }
 
             // level 1 clicked
             if (mx >= SELECT_LEVEL_WIDTH && mx <= 2 * SELECT_LEVEL_WIDTH && my >= PLAY_BUTTON_Y && my <= PLAY_BUTTON_Y + SELECT_LEVEL_HEIGHT && startGameClicked) {
                 game.poziom1();
                 startGameClicked = false;
+                return;
                 
             }
-
+            // level 2 clicked
             if (mx >= 2 * SELECT_LEVEL_WIDTH && mx <= 4 * SELECT_LEVEL_WIDTH && my >= PLAY_BUTTON_Y && my <= PLAY_BUTTON_Y + SELECT_LEVEL_HEIGHT && startGameClicked) {
                 game.poziom2();
                 startGameClicked = false;
+                return;
                 
             }
         
@@ -154,7 +159,7 @@ public class Menu extends MouseAdapter {
             // return button in game
             if (mx >= RETURN_BUTTON_X && mx <= BUTTON_WIDTH && my >= RETURN_BUTTON_Y && my <= RETURN_BUTTON_HEIGHT) {  
                 game.setGameState(GameState.MENU); // switch to menu
-                startGameClicked = false; // in case button was clicked in the menu
+                return;
             }
 
         }

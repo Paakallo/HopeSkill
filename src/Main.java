@@ -194,7 +194,7 @@ public class Main extends Canvas implements Runnable {
         // }
 
         MapLoader mapLoader = new MapLoader(handler);
-        mapLoader.loadMap("maps/chat_level_test.json");
+        mapLoader.loadMap("maps/level2.json");
 
         gameThread = new Thread(this, "Level2");
         gameThread.start();
