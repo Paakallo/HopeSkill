@@ -25,22 +25,24 @@ public class Pipe extends GameObject{
         this.handler = handler;
 
         //initialize textures
-        try {
-            grass = ImageIO.read(new File("resources/pipe.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     grass = ImageIO.read(new File("resources/pipe.png"));
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
 
     }
 
     public void render(Graphics g) {
 
-        if (grass != null) {
-            g.drawImage(grass, (int)getX(), (int)getY(), width, height, null);
-        } else {
+        // if (grass != null) {
+        //     g.drawImage(grass, (int)getX(), (int)getY(), width, height, null);
+        // } else {
+        //     g.setColor(Color.white);
+        //     g.drawRect((int)getX(), (int)getY(), width, height);
+        // }
             g.setColor(Color.white);
             g.drawRect((int)getX(), (int)getY(), width, height);
-        }
 
 
         

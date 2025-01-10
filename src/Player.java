@@ -1,109 +1,126 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.util.Iterator;
+import java.awt.*;
+import java.util.List;
 
-
-public class Player extends GameObject{
-    
+public class Player extends GameObject {
     private ObjectHandler handler;
-    static float height = 32;
-    static float width = 16;
     private boolean jump = false;
 
     public Player(float x, float y, int scale, ObjectHandler handler) {
-        super(x, y, ObjectId.Player,width, height, scale);
+        super(x, y, ObjectId.Player, 16, 32, scale); // Player dimensions (width, height)
         this.handler = handler;
     }
 
-    public void render(Graphics g){
-        g.setColor(Color.yellow);
-        g.fillRect((int)getX(), (int)getY(), (int) width, (int) height);
+    @Override
+    public void render(Graphics g) {
+        g.setColor(Color.YELLOW);
+        g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+
+        // Debug: Draw collision boundaries
         showBounds(g);
     }
 
-    public void tick(){
-        //update position every tick
+    @Override
+    public void tick() {
+        // Update position
+        setX(getX() + getVel_x());
+        setY(getY() + getVel_y());
 
-        setX(getVel_x()+getX());
-        setY(getVel_y()+getY());
-        gravity();
-        collision();
+        // Apply gravity
+        if (!isGrounded()) {
+            gravity();
+        }
+
+        // Handle collision
+        handleCollisions();
     }
 
-    private void collision(){
-        Iterator<GameObject> it = handler.getObjects().iterator();
-        while (it.hasNext()) {
-            GameObject obj = it.next();
+    private void handleCollisions() {
+        List<GameObject> objects = handler.getObjects();
 
-            // to be expanded for different objects
-            if (obj.getId() == ObjectId.Block){
-                if (getBounds().intersects(obj.getBounds())){
-                    setY(obj.getY()-getHeight());
+        for (GameObject obj : objects) {
+            if (obj == this) continue; // Skip self
+
+            if (obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Pipe || obj.getId() == ObjectId.Platform) {
+                resolveCollision(obj);
+            }
+        }
+    }
+
+    private void resolveCollision(GameObject obj) {
+        Rectangle playerBounds = getBounds();
+        Rectangle objBounds = obj.getBounds();
+
+        if (playerBounds.intersects(objBounds)) {
+            Rectangle intersection = playerBounds.intersection(objBounds);
+
+            if (intersection.getWidth() > intersection.getHeight()) {
+                // Vertical collision
+                if (getY() < obj.getY()) {
+                    // Colliding from the top
+                    setY(obj.getY() - getHeight());
                     setVel_y(0);
                     jump = false;
-                }
-
-                if (getBoundsTop().intersects(obj.getBounds())){
-                    setY(obj.getY()+obj.getHeight());
+                } else {
+                    // Colliding from the bottom
+                    setY(obj.getY() + obj.getHeight());
                     setVel_y(0);
                 }
-
-                if (getBoundsRight().intersects(obj.getBounds())){
-                    setX(obj.getX()-getWidth());
-                }
-
-                if (getBoundsLeft().intersects(obj.getBounds())){
-                    setX(obj.getX() + getWidth());
+            } else {
+                // Horizontal collision
+                if (getX() < obj.getX()) {
+                    // Colliding from the left
+                    setX(obj.getX() - getWidth());
+                } else {
+                    // Colliding from the right
+                    setX(obj.getX() + obj.getWidth());
                 }
             }
         }
     }
 
-    public Rectangle getBounds(){
-        return new Rectangle((int) (getX()+getWidth()/2-getWidth()/4), 
-        (int) (getY()+getHeight()/2), 
-        (int) getWidth()/2, 
-        (int) getHeight()/2);
+    private boolean isGrounded() {
+        List<GameObject> objects = handler.getObjects();
+
+        for (GameObject obj : objects) {
+            if (obj == this) continue;
+
+            if ((obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Platform) && getBounds().intersects(obj.getBounds())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public Rectangle getBoundsTop(){
-        return new Rectangle((int) (getX()+getWidth()/2-getWidth()/4), 
-        (int) getY(), 
-        (int) getWidth()/2, 
-        (int) getHeight()/2);
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
     }
 
-    public Rectangle getBoundsRight(){
-        return new Rectangle((int) (getX()+getWidth()/2 - 5), 
-        (int) getY() + 5, 
-        5, 
-        (int) getHeight() - 10);
+    // Add directional bounds if needed (e.g., for fine-tuning collisions)
+    public Rectangle getBoundsTop() {
+        return new Rectangle((int) getX() + (int) getWidth() / 4, (int) getY(), (int) getWidth() / 2, (int) getHeight() / 4);
     }
 
-    public Rectangle getBoundsLeft(){
-        return new Rectangle((int) getX(), 
-        (int) getY() + 5, 
-        5, 
-        (int) getHeight() - 10);
+    public Rectangle getBoundsRight() {
+        return new Rectangle((int) getX() + (int) getWidth() - 5, (int) getY() + 5, 5, (int) getHeight() - 10);
     }
-    // function for debug purposes
-    private void showBounds(Graphics g){
+
+    public Rectangle getBoundsLeft() {
+        return new Rectangle((int) getX(), (int) getY() + 5, 5, (int) getHeight() - 10);
+    }
+
+    private void showBounds(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        g.setColor(Color.red);
+        g.setColor(Color.RED);
         g2d.draw(getBounds());
-        g2d.draw(getBoundsRight());
-        g2d.draw(getBoundsLeft());
-        g2d.draw(getBoundsTop());
     }
 
-    public boolean getJump(){
+    public boolean getJump() {
         return jump;
     }
 
-    public void setJump(boolean jump){
-       this.jump = jump;
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 }

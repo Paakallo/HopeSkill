@@ -80,15 +80,40 @@ public class Main extends Canvas implements Runnable {
 
     @Override
     public void run() {
+        long lastTime = System.nanoTime();
+        double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks;
+        double delta = 0;
+        long timer = System.currentTimeMillis();
+        int frames = 0;
+
         while (state != GameState.MENU) {
-            tick();
-            renderGame();
-            try {
-                Thread.sleep(16); // Approx. 60 FPS
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+
+            while (delta >= 1) {
+                tick(); // Update game logic
+                delta--;
             }
+            
+            renderGame(); // Render frame
+            frames++;
+
+        if (System.currentTimeMillis() - timer > 1000) {
+            timer += 1000;
+            System.out.println("FPS: " + frames);
+            frames = 0;
+        }
+        // lock on 60 FPS somehow makes rendering unstable that's why it is commented
+        try {
+            Thread.sleep(16); // Approx. 60 FPS
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            break;
+        }
+
+
         }
         stopGame();
     }
@@ -135,20 +160,6 @@ public class Main extends Canvas implements Runnable {
         buf.show();
     }
 
-
-    // private void renderGame() {
-    //     BufferStrategy buf = this.getBufferStrategy();
-    //     if (buf == null) {
-    //         this.createBufferStrategy(3);
-    //         return;
-    //     }
-    //     Graphics g = buf.getDrawGraphics();
-    //     g.setColor(Color.BLACK);
-    //     g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
-    //     handler.render(g); //renders all level objects
-    //     g.dispose();
-    //     buf.show();
-    // }
 
     private void renderGame() {
         BufferStrategy buf = this.getBufferStrategy();
