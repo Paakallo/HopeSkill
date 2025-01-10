@@ -64,6 +64,22 @@ public class MapLoader {
                     ));
                 }
             }
+            // Parse enemy
+            if (json.has("EnemyPatroller")) {
+                JSONArray patrollers = json.getJSONArray("EnemyPatroller");
+                for (int i = 0; i < patrollers.length(); i++) {
+                    JSONObject patroller = patrollers.getJSONObject(i);
+                    handler.addObj(new EnemyPatroller(
+                        patroller.getInt("x"),
+                        patroller.getInt("y"),
+                        patroller.getInt("width"),
+                        patroller.getInt("height"),
+                        patroller.getInt("minX"),
+                        patroller.getInt("maxX"),
+                        1    
+                    ));
+                }
+            }
             // Parse Player
             JSONObject player = json.getJSONObject("Player");
             handler.setPlayer(new Player(

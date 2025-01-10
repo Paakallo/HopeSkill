@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.util.List;
-
+//TODO: TOP COLLISION!!!
 public class Player extends GameObject {
     private ObjectHandler handler;
     private boolean jump = false;
