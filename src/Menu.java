@@ -86,12 +86,50 @@ public class Menu extends MouseAdapter {
             g.setFont(new Font("Arial", Font.PLAIN, 30));
             g.drawString("Return", RETURN_BUTTON_X + 20, RETURN_BUTTON_Y + 35);
 
-            g.drawImage(heart, 1100, 0, HEART_WIDTH, HEART_HEIGHT, null);
-            g.drawImage(heart, 1130, 0, HEART_WIDTH, HEART_HEIGHT, null);
-            g.drawImage(heart, 1160, 0, HEART_WIDTH, HEART_HEIGHT, null);
-            g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
-            g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            // check health
+           
+            if (Player.health == 5){
+                g.drawImage(heart, 1100, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1130, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1160, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                }
 
+            if (Player.health == 4){
+                g.drawImage(heart, 1130, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1160, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                }
+
+            if (Player.health == 3){
+                g.drawImage(heart, 1160, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                }
+
+            if (Player.health == 2){
+                g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                }
+
+            if (Player.health == 1){
+                g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+                }
+            // oops, death
+            if (Player.health == 0){
+
+                }
+            // int heart_pos = 1220; //last heart position
+            // for (int i = 10; i < Player.health;i++){
+            //     g.drawImage(heart, heart_pos, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            //     heart_pos -= 30;
+
+            //     if (heart_pos < 1100) {
+            //         heart_pos = 1220;
+            //     }
+            // }
         }
     }
 
