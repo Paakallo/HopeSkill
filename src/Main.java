@@ -169,7 +169,7 @@ public class Main extends Canvas implements Runnable {
         }
         Graphics g = buf.getDrawGraphics();
         g.setColor(Color.BLACK);
-        g.fillRect(0, 100, getWidth(), getHeight()); //give a place for menu
+        g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
     
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(-camera.getX(), -camera.getY()); // Shift the view based on camera

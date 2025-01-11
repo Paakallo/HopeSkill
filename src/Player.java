@@ -1,23 +1,40 @@
 import java.awt.*;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
 //TODO: TOP COLLISION!!!
+import java.io.File;
+import java.io.IOException;
 
 public class Player extends GameObject {
     private ObjectHandler handler;
     private boolean jump = false;
 
+    private BufferedImage playerStand;
+
+    public static int health = 5;
+
     public Player(float x, float y, int scale, ObjectHandler handler) {
-        super(x, y, ObjectId.Player, 16, 32, scale); // Player dimensions (width, height)
+        super(x, y, ObjectId.Player, 30, 40, scale); // Player dimensions (width, height)
         this.handler = handler;
+        
+        try {
+            playerStand = ImageIO.read(new File("resources/player_stand.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.YELLOW);
-        g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+        // g.setColor(Color.YELLOW);
+        // g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
 
-        // Debug: Draw collision boundaries
-        showBounds(g);
+        // // Debug: Draw collision boundaries
+        // showBounds(g);
+        g.drawImage(playerStand, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
     }
 
     @Override

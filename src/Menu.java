@@ -16,6 +16,7 @@ public class Menu extends MouseAdapter {
     private BufferedImage backgroundImage;
     private BufferedImage playButton;
     private BufferedImage levelButton;
+    private BufferedImage heart;
 
     static int BUTTON_WIDTH = 200;
     static int BUTTON_HEIGHT = 100;
@@ -34,6 +35,9 @@ public class Menu extends MouseAdapter {
     int SELECT_LEVEL_WIDTH = 165;
     int SELECT_LEVEL_HEIGHT = 100;
 
+    int HEART_WIDTH = 30;
+    int HEART_HEIGHT = 30;
+
     public Menu(Main game) {
         this.game = game;
 
@@ -44,14 +48,17 @@ public class Menu extends MouseAdapter {
             e.printStackTrace();
         }
         try {
-            // Load the background image
             playButton = ImageIO.read(new File("resources/play_button.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            // Load the background image
             levelButton = ImageIO.read(new File("resources/open_level.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            heart = ImageIO.read(new File("resources/heart.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,14 +68,9 @@ public class Menu extends MouseAdapter {
     public void render (Graphics g){
 
         if (game.getGameState() == GameState.MENU) {
-            // Draw the background image
-            if (backgroundImage != null) {
-                g.drawImage(backgroundImage, 0, 0, game.getWidth(), game.getHeight(), null);
-            } else {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, game.getWidth(), game.getHeight());
-            }
 
+            g.drawImage(backgroundImage, 0, 0, game.getWidth(), game.getHeight(), null);
+            
             if (!startGameClicked) {
                 renderStartMenu(g);
         
@@ -76,13 +78,20 @@ public class Menu extends MouseAdapter {
                 renderChooseLevel(g);
             }
 
-        } else { //draw in-game menu bar
+        } else { //draw in-game menu bar and health bar
             g.setColor(Color.WHITE);
             g.drawRect(RETURN_BUTTON_X, RETURN_BUTTON_Y, BUTTON_WIDTH, RETURN_BUTTON_HEIGHT);
 
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, 30));
             g.drawString("Return", RETURN_BUTTON_X + 20, RETURN_BUTTON_Y + 35);
+
+            g.drawImage(heart, 1100, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            g.drawImage(heart, 1130, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            g.drawImage(heart, 1160, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            g.drawImage(heart, 1190, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            g.drawImage(heart, 1220, 0, HEART_WIDTH, HEART_HEIGHT, null);
+
         }
     }
 
@@ -133,7 +142,7 @@ public class Menu extends MouseAdapter {
                 
             }
             
-            //return button
+            //return button in menu
             if (mx >= RETURN_BUTTON_X && mx <= BUTTON_WIDTH && my >= RETURN_BUTTON_Y && my <= RETURN_BUTTON_HEIGHT) {  
                 game.setGameState(GameState.MENU); // switch to menu
                 startGameClicked = false; // in case button was clicked in the menu
