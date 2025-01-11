@@ -1,28 +1,25 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.List;
-//TODO: TOP COLLISION!!!
 
-public class Player extends GameObject {
+public class EnemyJumper extends GameObject {
+    private boolean isJumping = false;
     private ObjectHandler handler;
-    private boolean jump = false;
 
-    public Player(float x, float y, int scale, ObjectHandler handler) {
-        super(x, y, ObjectId.Player, 16, 32, scale); // Player dimensions (width, height)
+    public EnemyJumper(float x, float y, int scale, ObjectHandler handler) {
+        super(x, y, ObjectId.Enemy, 16, 32, scale);
         this.handler = handler;
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.BLUE);
         g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
-
-        // Debug: Draw collision boundaries
-        showBounds(g);
     }
 
     @Override
     public void tick() {
-        // Update position
         setX(getX() + getVel_x());
         setY(getY() + getVel_y());
 
@@ -31,8 +28,16 @@ public class Player extends GameObject {
             gravity();
         }
 
-        // Handle collision
+        // Handle collisions
         handleCollisions();
+
+        // Simulate jumping
+        if (!isJumping && isGrounded()) {
+            setVel_y(-5); // Jump up
+            isJumping = true;
+        } else if (isGrounded()) {
+            isJumping = false;
+        }
     }
 
     private void handleCollisions() {
@@ -48,11 +53,11 @@ public class Player extends GameObject {
     }
 
     private void resolveCollision(GameObject obj) {
-        Rectangle playerBounds = getBounds();
+        Rectangle jumperBounds = getBounds();
         Rectangle objBounds = obj.getBounds();
 
-        if (playerBounds.intersects(objBounds)) {
-            Rectangle intersection = playerBounds.intersection(objBounds);
+        if (jumperBounds.intersects(objBounds)) {
+            Rectangle intersection = jumperBounds.intersection(objBounds);
 
             if (intersection.getWidth() > intersection.getHeight()) {
                 // Vertical collision
@@ -60,7 +65,7 @@ public class Player extends GameObject {
                     // Colliding from the top
                     setY(obj.getY() - getHeight());
                     setVel_y(0);
-                    jump = false;
+                    isJumping = false; // Reset jump state
                 } else {
                     // Colliding from the bottom
                     setY(obj.getY() + obj.getHeight());
@@ -96,32 +101,5 @@ public class Player extends GameObject {
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
-    }
-
-    // Add directional bounds if needed (e.g., for fine-tuning collisions)
-    public Rectangle getBoundsTop() {
-        return new Rectangle((int) getX() + (int) getWidth() / 4, (int) getY(), (int) getWidth() / 2, (int) getHeight() / 4);
-    }
-
-    public Rectangle getBoundsRight() {
-        return new Rectangle((int) getX() + (int) getWidth() - 5, (int) getY() + 5, 5, (int) getHeight() - 10);
-    }
-
-    public Rectangle getBoundsLeft() {
-        return new Rectangle((int) getX(), (int) getY() + 5, 5, (int) getHeight() - 10);
-    }
-
-    private void showBounds(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.RED);
-        g2d.draw(getBounds());
-    }
-
-    public boolean getJump() {
-        return jump;
-    }
-
-    public void setJump(boolean jump) {
-        this.jump = jump;
     }
 }

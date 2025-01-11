@@ -76,7 +76,8 @@ public class MapLoader {
                         patroller.getInt("height"),
                         patroller.getInt("minX"),
                         patroller.getInt("maxX"),
-                        1    
+                        1,
+                        handler    
                     ));
                 }
             }
