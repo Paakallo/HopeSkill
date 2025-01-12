@@ -16,6 +16,8 @@ public class Player extends GameObject {
 
     public static int health = 5;
 
+    private long lastDamageTime = 0; // Time in milliseconds
+
     public Player(float x, float y, int scale, ObjectHandler handler) {
         super(x, y, ObjectId.Player, 30, 40, scale); // Player dimensions (width, height)
         this.handler = handler;
@@ -99,22 +101,27 @@ public class Player extends GameObject {
     }
 
     // enemy collision
-    private long lastDamageTime = 0; // Time in milliseconds
-
     private void handleEnemyCollision(GameObject enemy) {
+
         Rectangle playerBounds = getBounds();
         Rectangle enemyBounds = enemy.getBounds();
 
-        if (playerBounds.intersects(enemyBounds)) {
-            long currentTime = System.currentTimeMillis();
 
-            if (getBoundsTop().intersects(enemyBounds)) {
-                // Player hits the enemy from the top
-                handler.removeObj(enemy); // Remove enemy from the game
-                setVel_y(-10); // Bounce effect
+        if (playerBounds.intersects(enemyBounds)) {
+
+            long currentTime = System.currentTimeMillis();
+            Rectangle intersection = playerBounds.intersection(enemyBounds);
+
+            // Player hits the enemy from the top
+            if (intersection.getWidth() > intersection.getHeight()) {
+                
+                handler.removeObj(enemy); 
+                setVel_y(-100); // Bounce effect
+
             } else if (currentTime - lastDamageTime >= 2000) { // Check 2-second cooldown
+                
                 // Player collides with the enemy otherwise
-                health--; // Reduce player's health
+                health--; 
                 System.out.println(health);
                 lastDamageTime = currentTime; // Update last damage time
 

@@ -79,6 +79,9 @@ public class Menu extends MouseAdapter {
             }
 
         } else { //draw in-game menu bar and health bar
+            //draw menu-bar every time because of health bar
+            g.drawImage(backgroundImage, 0, 0, 1280, 50, 0, 0, backgroundImage.getWidth(), 50, null);
+            
             g.setColor(Color.WHITE);
             g.drawRect(RETURN_BUTTON_X, RETURN_BUTTON_Y, BUTTON_WIDTH, RETURN_BUTTON_HEIGHT);
 
@@ -88,22 +91,11 @@ public class Menu extends MouseAdapter {
 
             // check health
            
-            
-            // Clear the area where the hearts are drawn
-            g.clearRect(1100, 0, 150, HEART_HEIGHT);
-            
-    
             // Draw hearts based on current health
             for (int i = 0; i < Player.health; i++) {
                 g.drawImage(heart, 1220 - (i * 30), 0, HEART_WIDTH, HEART_HEIGHT, null);
             }
     
-            // Handle zero health (e.g., Game Over)
-            if (Player.health <= 0) {
-                g.setColor(Color.RED);
-                g.setFont(new Font("Arial", Font.BOLD, 40));
-                g.drawString("Game Over!", 600, 100);
-            }
             
         }
     }

@@ -20,7 +20,8 @@ enum GameState {
     L2,
     L3,
     L4,
-    L5
+    L5,
+    GAME_OVER
 }
 
 public class Main extends Canvas implements Runnable {
@@ -28,6 +29,7 @@ public class Main extends Canvas implements Runnable {
     public static final int WINDOW_HEIGHT = 720;
 
     private GameState state = GameState.MENU;
+    private GameState curentLevel = GameState.MENU;
 
     private ObjectHandler handler;
     private Camera camera;
@@ -37,6 +39,8 @@ public class Main extends Canvas implements Runnable {
 
     private Menu menu;
 
+    private int howManyLifes = 3;
+    
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
@@ -87,7 +91,7 @@ public class Main extends Canvas implements Runnable {
         long timer = System.currentTimeMillis();
         int frames = 0;
 
-        while (state != GameState.MENU) {
+        while (state != GameState.MENU && state != GameState.GAME_OVER) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -102,8 +106,12 @@ public class Main extends Canvas implements Runnable {
 
         //end game after death
         if (Player.health == 0){
+            curentLevel = state;
+            howManyLifes--;
+            state = GameState.GAME_OVER;
 
-            state = GameState.MENU;
+            //stopGame();
+            // restart();
         }
 
         if (System.currentTimeMillis() - timer > 1000) {
@@ -118,8 +126,6 @@ public class Main extends Canvas implements Runnable {
             Thread.currentThread().interrupt();
             break;
         }
-
-
         }
         stopGame();
     }
@@ -138,11 +144,15 @@ public class Main extends Canvas implements Runnable {
             handler.removeObjects();
             Player.health = 5;
             // without these 2 lines, it would work like a continue button :D
+
+            if (state == GameState.GAME_OVER){
+                restart();
+            }
         }
     }
 
     private void tick() {
-        if (state != GameState.MENU) {
+        if (state != GameState.MENU && state != GameState.GAME_OVER) {
             handler.tick();
 
             // Update the camera to follow the player
@@ -175,22 +185,33 @@ public class Main extends Canvas implements Runnable {
             return;
         }
         Graphics g = buf.getDrawGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
-    
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(-camera.getX(), -camera.getY()); // Shift the view based on camera
-    
-        handler.render(g2d); // Render objects relative to camera position
-    
-        g2d.translate(camera.getX(), camera.getY()); // Reset translation
-        g.dispose();
-        buf.show();
+
+        if (state == GameState.GAME_OVER){
+            g.setColor(Color.RED);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+            g.drawString("GAME OVER", WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2);
+            g.setFont(new Font("Arial", Font.PLAIN, 30));
+            g.drawString("Click Return to Exit or Press R to Restart", WINDOW_WIDTH / 2 - 200, WINDOW_HEIGHT / 2 + 50);
+        } else {
+        
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
+        
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.translate(-camera.getX(), -camera.getY()); // Shift the view based on camera
+        
+            handler.render(g2d); // Render objects relative to camera position
+        
+            g2d.translate(camera.getX(), camera.getY()); // Reset translation
+            g.dispose();
+            buf.show();
+        }
     }
     
 
     //poziomy
     void poziom1(){
+        curentLevel = GameState.MENU;
         state = GameState.L1;
         handler.setPlayer(new Player(32, 32, 1, handler));
         for (int i = 0; i < 20; i++) {
@@ -204,6 +225,7 @@ public class Main extends Canvas implements Runnable {
 
 
     void poziom2(){
+        curentLevel = GameState.MENU;
         state = GameState.L2;
         // handler.setPlayer(new Player(32, 32, 1, handler));
         // for (int i = 0; i < 20; i++) {
@@ -217,6 +239,18 @@ public class Main extends Canvas implements Runnable {
         gameThread = new Thread(this, "Level2");
         gameThread.start();
     }
+
+
+    void restart(){
+        
+        if (curentLevel == GameState.L1){
+            poziom1();
+        }
+        else if (curentLevel == GameState.L2){
+            poziom2();
+        }
+    }
+
 
     public static void main(String[] args) {
         Main main = new Main();
