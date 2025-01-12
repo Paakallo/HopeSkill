@@ -156,14 +156,18 @@ public class Menu extends MouseAdapter {
 
             // level 1 clicked
             if (mx >= SELECT_LEVEL_WIDTH && mx <= 2 * SELECT_LEVEL_WIDTH && my >= PLAY_BUTTON_Y && my <= PLAY_BUTTON_Y + SELECT_LEVEL_HEIGHT && startGameClicked) {
-                game.poziom1();
+                // game.poziom1();
+                game.setGameState(GameState.L1);
+                game.startLevel(GameState.L1);
                 startGameClicked = false;
                 return;
                 
             }
             // level 2 clicked
             if (mx >= 2 * SELECT_LEVEL_WIDTH && mx <= 4 * SELECT_LEVEL_WIDTH && my >= PLAY_BUTTON_Y && my <= PLAY_BUTTON_Y + SELECT_LEVEL_HEIGHT && startGameClicked) {
-                game.poziom2();
+                // game.poziom2();
+                game.setGameState(GameState.L2);
+                game.startLevel(GameState.L2);
                 startGameClicked = false;
                 return;
                 

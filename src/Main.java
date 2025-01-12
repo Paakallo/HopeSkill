@@ -33,18 +33,22 @@ public class Main extends Canvas implements Runnable {
 
     private ObjectHandler handler;
     private Camera camera;
+    private MapLoader mapLoader;
+
     //threads
     private Thread menuThread;
     private Thread gameThread;
 
     private Menu menu;
 
-    private int howManyLifes = 3;
-    
+    private int lifeCount = 3;
+
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
         this.addKeyListener(new Inputs(handler));
+
+        mapLoader = new MapLoader(handler);
 
         menu = new Menu(this);
         this.addMouseListener(menu);
@@ -55,7 +59,7 @@ public class Main extends Canvas implements Runnable {
     public synchronized void startMenu() {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
-            // for now True, as it will render only parts dependent on GameState
+            // for now True, as it will render only parts of menu depending on GameState
             while (true) {
                 renderMenu();
                 try {
@@ -104,29 +108,27 @@ public class Main extends Canvas implements Runnable {
             renderGame(); // Render frame
             frames++;
 
-        //end game after death
-        if (Player.health == 0){
-            curentLevel = state;
-            howManyLifes--;
-            state = GameState.GAME_OVER;
+            //end game after death
+            if (Player.health == 0){
+                curentLevel = state;
+                lifeCount--;
+                state = GameState.GAME_OVER; // activates restart function in stopGame
+            }
 
-            //stopGame();
-            // restart();
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 1000;
+                System.out.println("FPS: " + frames);
+                frames = 0;
+            }
+            // lock on 60 FPS somehow makes rendering unstable that's why it is commented
+            try {
+                Thread.sleep(16); // Approx. 60 FPS
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
 
-        if (System.currentTimeMillis() - timer > 1000) {
-            timer += 1000;
-            System.out.println("FPS: " + frames);
-            frames = 0;
-        }
-        // lock on 60 FPS somehow makes rendering unstable that's why it is commented
-        try {
-            Thread.sleep(16); // Approx. 60 FPS
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            break;
-        }
-        }
         stopGame();
     }
 
@@ -146,7 +148,15 @@ public class Main extends Canvas implements Runnable {
             // without these 2 lines, it would work like a continue button :D
 
             if (state == GameState.GAME_OVER){
-                restart();
+                if (lifeCount < 0){
+                    state = GameState.MENU; //for now only this
+                } else {
+                    //restart();
+                    state = curentLevel;
+                    startLevel(curentLevel);
+                }
+            } else {
+                    lifeCount = 3;
             }
         }
     }
@@ -210,46 +220,51 @@ public class Main extends Canvas implements Runnable {
     
 
     //poziomy
-    void poziom1(){
-        curentLevel = GameState.MENU;
-        state = GameState.L1;
-        handler.setPlayer(new Player(32, 32, 1, handler));
-        for (int i = 0; i < 20; i++) {
-            handler.addObj(new Block(i * 16, 320, 32, 32, 1));
-            handler.addObj(new Block(i * 16, 120, 32, 32, 1));
-        }
+    // void poziom1(){
+    //     curentLevel = GameState.MENU;
+    //     state = GameState.L1;
+    //     handler.setPlayer(new Player(32, 32, 1, handler));
+    //     for (int i = 0; i < 20; i++) {
+    //         handler.addObj(new Block(i * 16, 320, 32, 32, 1));
+    //         handler.addObj(new Block(i * 16, 120, 32, 32, 1));
+    //     }
 
-        gameThread = new Thread(this, "Level1");
-        gameThread.start();
-    }
-
-
-    void poziom2(){
-        curentLevel = GameState.MENU;
-        state = GameState.L2;
-        // handler.setPlayer(new Player(32, 32, 1, handler));
-        // for (int i = 0; i < 20; i++) {
-        //     handler.addObj(new Block(i * 16, 320, 32, 32, 1));
-        //     //handler.addObj(new Block(i * 16, 120, 32, 32, 1));
-        // }
-
-        MapLoader mapLoader = new MapLoader(handler);
-        mapLoader.loadMap("maps/level2.json");
-
-        gameThread = new Thread(this, "Level2");
-        gameThread.start();
-    }
+    //     gameThread = new Thread(this, "Level1");
+    //     gameThread.start();
+    // }
 
 
-    void restart(){
+    // void poziom2(){
+    //     curentLevel = GameState.MENU;
+    //     state = GameState.L2;
+
+    //     MapLoader mapLoader = new MapLoader(handler);
+    //     mapLoader.loadMap("maps/level2.json");
+
+    //     gameThread = new Thread(this, "Level2");
+    //     gameThread.start();
+    // }
+
+
+    void startLevel(GameState selLevel){
         
-        if (curentLevel == GameState.L1){
-            poziom1();
-        }
-        else if (curentLevel == GameState.L2){
-            poziom2();
-        }
+        mapLoader.loadMap(selLevel);
+        curentLevel = GameState.MENU; //reset currentLevel
+        
+        gameThread = new Thread(this, "Game");
+        gameThread.start();
     }
+
+    // void restart(){
+        
+    //     if (curentLevel == GameState.L1){
+    //         poziom1();
+    //     }
+    //     else if (curentLevel == GameState.L2){
+    //         poziom2();
+    //     }
+
+    // }
 
 
     public static void main(String[] args) {

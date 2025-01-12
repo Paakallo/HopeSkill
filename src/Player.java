@@ -15,7 +15,7 @@ public class Player extends GameObject {
     private BufferedImage playerStand;
 
     public static int health = 5;
-
+    public static int reflectionPoints = 0;
     private long lastDamageTime = 0; // Time in milliseconds
 
     public Player(float x, float y, int scale, ObjectHandler handler) {
@@ -119,7 +119,7 @@ public class Player extends GameObject {
                 setVel_y(-100); // Bounce effect
 
             } else if (currentTime - lastDamageTime >= 2000) { // Check 2-second cooldown
-                
+
                 // Player collides with the enemy otherwise
                 health--; 
                 System.out.println(health);

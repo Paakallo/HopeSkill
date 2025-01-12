@@ -4,5 +4,6 @@ public enum ObjectId {
     EnemyPatroller,
     Block,
     Pipe,
-    Platform;
+    Platform,
+    Reflection;
 }

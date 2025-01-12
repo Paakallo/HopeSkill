@@ -12,7 +12,9 @@ public class MapLoader {
         this.handler = handler;
     }
 
-    public void loadMap(String mapFile) {
+    public void loadMap(GameState selLevel) {
+
+        String mapFile = findMap(selLevel);
         try {
             // Clear existing objects
             handler.removeObjects();
@@ -93,5 +95,22 @@ public class MapLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String findMap(GameState selLevel){
+        String mapPath;
+        
+        if (selLevel == GameState.L1){
+            mapPath = "maps/level1.json";
+        }
+        else if (selLevel == GameState.L2){
+            mapPath = "maps/level2.json";
+        }
+        else {
+            return "";
+        }
+        System.out.println("Selected map"+ mapPath);
+    
+        return mapPath;
     }
 }
