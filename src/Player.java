@@ -60,10 +60,12 @@ public class Player extends GameObject {
 
             if (obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Pipe || obj.getId() == ObjectId.Platform) {
                 resolveCollision(obj);
+            } else if (obj.getId() == ObjectId.Enemy || obj.getId() == ObjectId.EnemyPatroller) {
+                handleEnemyCollision(obj);
             }
         }
     }
-
+// object collision
     private void resolveCollision(GameObject obj) {
         Rectangle playerBounds = getBounds();
         Rectangle objBounds = obj.getBounds();
@@ -95,6 +97,34 @@ public class Player extends GameObject {
             }
         }
     }
+
+    // enemy collision
+    private long lastDamageTime = 0; // Time in milliseconds
+
+    private void handleEnemyCollision(GameObject enemy) {
+        Rectangle playerBounds = getBounds();
+        Rectangle enemyBounds = enemy.getBounds();
+
+        if (playerBounds.intersects(enemyBounds)) {
+            long currentTime = System.currentTimeMillis();
+
+            if (getBoundsTop().intersects(enemyBounds)) {
+                // Player hits the enemy from the top
+                handler.removeObj(enemy); // Remove enemy from the game
+                setVel_y(-10); // Bounce effect
+            } else if (currentTime - lastDamageTime >= 2000) { // Check 2-second cooldown
+                // Player collides with the enemy otherwise
+                health--; // Reduce player's health
+                System.out.println(health);
+                lastDamageTime = currentTime; // Update last damage time
+
+                if (health <= 0) {
+                    System.out.println("Game Over!");
+                }
+            }
+        }
+    }
+
 
     private boolean isGrounded() {
         List<GameObject> objects = handler.getObjects();

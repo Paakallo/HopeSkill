@@ -100,6 +100,12 @@ public class Main extends Canvas implements Runnable {
             renderGame(); // Render frame
             frames++;
 
+        //end game after death
+        if (Player.health == 0){
+
+            state = GameState.MENU;
+        }
+
         if (System.currentTimeMillis() - timer > 1000) {
             timer += 1000;
             System.out.println("FPS: " + frames);
@@ -130,6 +136,7 @@ public class Main extends Canvas implements Runnable {
             // free all the resources
             handler.removePlayer();
             handler.removeObjects();
+            Player.health = 5;
             // without these 2 lines, it would work like a continue button :D
         }
     }
