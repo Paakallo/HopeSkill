@@ -17,7 +17,7 @@ public class Inputs extends KeyAdapter{
         if (key == KeyEvent.VK_W){
                 if (!handler.getPlayer().getJump()){
 
-                    handler.getPlayer().setVel_y(-70);
+                    handler.getPlayer().setVel_y(-90);
 
                     keys[0] = true;
                     handler.getPlayer().setJump(true);

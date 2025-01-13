@@ -107,9 +107,15 @@ public class Player extends GameObject {
                 }  
             } else {
                 // Horizontal collision
+                // if (jump){
+                //     setVel_y(1);
+                // }
                 if (getX() < obj.getX()) {
                     // Colliding from the left
                     setX(obj.getX() - getWidth());
+                    // if (getVel_y()<-3){
+                    //     setVel_y(2);
+                    // }
                 } else {
                     // Colliding from the right
                     setX(obj.getX() + obj.getWidth());
