@@ -94,9 +94,7 @@ public class Menu extends MouseAdapter {
             // Draw hearts based on current health
             for (int i = 0; i < Player.health; i++) {
                 g.drawImage(heart, 1220 - (i * 30), 0, HEART_WIDTH, HEART_HEIGHT, null);
-            }
-    
-            
+            } 
         }
     }
 

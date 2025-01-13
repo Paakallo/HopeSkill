@@ -29,7 +29,7 @@ public class Main extends Canvas implements Runnable {
     public static final int WINDOW_HEIGHT = 720;
 
     private GameState state = GameState.MENU;
-    private GameState curentLevel = GameState.MENU;
+    private GameState currLevel = GameState.MENU;
 
     private ObjectHandler handler;
     private Camera camera;
@@ -43,6 +43,8 @@ public class Main extends Canvas implements Runnable {
 
     private int lifeCount = 3;
 
+    private BufferedImage gameBackground;
+
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
@@ -54,6 +56,12 @@ public class Main extends Canvas implements Runnable {
         this.addMouseListener(menu);
 
         camera = new Camera(0, 0); // Initialize camera at (0, 0)
+
+        try {
+            gameBackground = ImageIO.read(new File("resources/background_lake.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void startMenu() {
@@ -110,7 +118,7 @@ public class Main extends Canvas implements Runnable {
 
             //end game after death
             if (Player.health == 0){
-                curentLevel = state;
+                currLevel = state;
                 lifeCount--;
                 state = GameState.GAME_OVER; // activates restart function in stopGame
             }
@@ -151,9 +159,8 @@ public class Main extends Canvas implements Runnable {
                 if (lifeCount < 0){
                     state = GameState.MENU; //for now only this
                 } else {
-                    //restart();
-                    state = curentLevel;
-                    startLevel(curentLevel);
+                    state = currLevel;
+                    startLevel(currLevel);
                 }
             } else {
                     lifeCount = 3;
@@ -200,12 +207,12 @@ public class Main extends Canvas implements Runnable {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));
             g.drawString("GAME OVER", WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2);
-            g.setFont(new Font("Arial", Font.PLAIN, 30));
-            g.drawString("Click Return to Exit or Press R to Restart", WINDOW_WIDTH / 2 - 200, WINDOW_HEIGHT / 2 + 50);
         } else {
         
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
+            // g.setColor(Color.BLACK);
+            // g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
+            g.drawImage(gameBackground, 0, 51, getWidth(), getHeight(), null);
+
         
             Graphics2D g2d = (Graphics2D) g;
             g2d.translate(-camera.getX(), -camera.getY()); // Shift the view based on camera
@@ -219,52 +226,15 @@ public class Main extends Canvas implements Runnable {
     }
     
 
-    //poziomy
-    // void poziom1(){
-    //     curentLevel = GameState.MENU;
-    //     state = GameState.L1;
-    //     handler.setPlayer(new Player(32, 32, 1, handler));
-    //     for (int i = 0; i < 20; i++) {
-    //         handler.addObj(new Block(i * 16, 320, 32, 32, 1));
-    //         handler.addObj(new Block(i * 16, 120, 32, 32, 1));
-    //     }
-
-    //     gameThread = new Thread(this, "Level1");
-    //     gameThread.start();
-    // }
-
-
-    // void poziom2(){
-    //     curentLevel = GameState.MENU;
-    //     state = GameState.L2;
-
-    //     MapLoader mapLoader = new MapLoader(handler);
-    //     mapLoader.loadMap("maps/level2.json");
-
-    //     gameThread = new Thread(this, "Level2");
-    //     gameThread.start();
-    // }
-
-
     void startLevel(GameState selLevel){
         
         mapLoader.loadMap(selLevel);
-        curentLevel = GameState.MENU; //reset currentLevel
+        currLevel = GameState.MENU; //reset currentLevel
         
         gameThread = new Thread(this, "Game");
         gameThread.start();
     }
 
-    // void restart(){
-        
-    //     if (curentLevel == GameState.L1){
-    //         poziom1();
-    //     }
-    //     else if (curentLevel == GameState.L2){
-    //         poziom2();
-    //     }
-
-    // }
 
 
     public static void main(String[] args) {
