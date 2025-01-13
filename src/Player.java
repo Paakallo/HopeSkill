@@ -15,7 +15,8 @@ public class Player extends GameObject {
     private BufferedImage playerStand;
 
     public static int health = 5;
-    public static int reflectionPoints = 0;
+    public static int reflections = 0;
+
     private long lastDamageTime = 0; // Time in milliseconds
 
     public Player(float x, float y, int scale, ObjectHandler handler) {
@@ -65,6 +66,18 @@ public class Player extends GameObject {
             } else if (obj.getId() == ObjectId.Enemy || obj.getId() == ObjectId.EnemyPatroller) {
                 handleEnemyCollision(obj);
             }
+            else if (obj.getId() == ObjectId.Reflection) {
+                ReflectionPoint reflection = (ReflectionPoint) obj;
+
+                Rectangle playerBounds = getBounds();
+                Rectangle pointBounds = reflection.getBounds();
+                
+                if (playerBounds.intersects(pointBounds)) {
+                    if (reflection.activate(this)) {
+                        TaskManager.startReflectionTask(reflection, this);
+                    }
+                }
+            }
         }
     }
 // object collision
@@ -102,6 +115,7 @@ public class Player extends GameObject {
 
     // enemy collision
     private void handleEnemyCollision(GameObject enemy) {
+        // E enemyObj = (GameObject) enemy;
 
         Rectangle playerBounds = getBounds();
         Rectangle enemyBounds = enemy.getBounds();
@@ -115,7 +129,8 @@ public class Player extends GameObject {
             // Player hits the enemy from the top
             if (intersection.getWidth() > intersection.getHeight()) {
                 
-                handler.removeObj(enemy); 
+                //handler.removeObj(enemy);
+                enemy.freezeObject();
                 setVel_y(-100); // Bounce effect
 
             } else if (currentTime - lastDamageTime >= 2000) { // Check 2-second cooldown

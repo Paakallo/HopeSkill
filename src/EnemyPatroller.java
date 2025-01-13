@@ -17,24 +17,32 @@ public class EnemyPatroller extends GameObject {
 
     @Override
     public void render(Graphics g) {
+        if (isAlive){
         g.setColor(Color.RED);
         g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+        }
     }
 
     @Override
     public void tick() {
-        setX(getX() + getVel_x());
-        setY(getY() + getVel_y());
+        if (isAlive){
+            setX(getX() + getVel_x());
+            setY(getY() + getVel_y());
 
-        // Apply gravity
-        gravity();
+            // Apply gravity
+            gravity();
 
-        // Handle collisions
-        handleCollisions();
+            // Handle collisions
+            handleCollisions();
 
-        // Reverse direction when reaching patrol bounds
-        if (getX() <= minX || getX() >= maxX) {
-            setVel_X(-getVel_x());
+            // Reverse direction when reaching patrol bounds
+            if (getX() <= minX || getX() >= maxX) {
+                setVel_X(-getVel_x());
+            }
+        } else{
+            // avoid synchronization problems and don't delete enemies
+            setX(0);
+            setY(0);
         }
     }
 
@@ -49,6 +57,7 @@ public class EnemyPatroller extends GameObject {
             }
         }
     }
+
 
     private void resolveCollision(GameObject obj) {
         Rectangle enemyBounds = getBounds();

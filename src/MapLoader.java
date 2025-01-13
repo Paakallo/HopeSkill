@@ -92,10 +92,24 @@ public class MapLoader {
                     handler
             ));
 
+            // Parse ReflectionPoints
+            if (json.has("ReflectionPoint")) {
+                JSONArray reflections = json.getJSONArray("ReflectionPoint");
+                for (int i = 0; i < reflections.length(); i++) {
+                    JSONObject reflection = reflections.getJSONObject(i);
+                    handler.addObj(new ReflectionPoint(
+                            reflection.getInt("x"),
+                            reflection.getInt("y"),
+                            1 // Scale
+                    ));
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public String findMap(GameState selLevel){
         String mapPath;

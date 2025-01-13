@@ -9,6 +9,7 @@ public abstract class GameObject {
     private float width, height;
     private int scale;
 
+    protected boolean isAlive = true;
 
 
     public GameObject(float x, float y,ObjectId id, float width, float height, int scale){
@@ -28,6 +29,10 @@ public abstract class GameObject {
 
         setVel_y(3);
 
+    }
+
+    public void freezeObject(){
+        isAlive = false;
     }
 
     public float setX(float x){
