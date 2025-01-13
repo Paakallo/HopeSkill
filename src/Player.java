@@ -32,11 +32,9 @@ public class Player extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        // g.setColor(Color.YELLOW);
-        // g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
 
-        // // Debug: Draw collision boundaries
-        // showBounds(g);
+        // Debug: Draw collision boundaries
+        //showBounds(g);
         g.drawImage(playerStand, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
     }
 
@@ -44,13 +42,19 @@ public class Player extends GameObject {
     public void tick() {
         // Update position
         setX(getX() + getVel_x());
-        setY(getY() + getVel_y());
+        //setY(getY() + getVel_y());
+
+        int steps = Math.max(1, (int) Math.ceil(Math.abs(getVel_y()) / 5)); // Divide velocity into steps
+
+        for (int i = 0; i < steps; i++) {
+            setY(getY() + (getVel_y() / steps));
+            handleCollisions();
+        }
 
         // Apply gravity
         if (!isGrounded()) {
             gravity();
         }
-
         // Handle collision
         handleCollisions();
     }
@@ -90,16 +94,17 @@ public class Player extends GameObject {
 
             if (intersection.getWidth() > intersection.getHeight()) {
                 // Vertical collision
-                if (getY() < obj.getY()) {
+                if (getY() < obj.getY()) {    
                     // Colliding from the top
                     setY(obj.getY() - getHeight());
                     setVel_y(0);
                     jump = false;
                 } else {
-                    // Colliding from the bottom
+                    System.out.println("Collision detected with " + obj.getId());
+                    // // Colliding from the bottom
                     setY(obj.getY() + obj.getHeight());
                     setVel_y(0);
-                }
+                }  
             } else {
                 // Horizontal collision
                 if (getX() < obj.getX()) {
@@ -112,6 +117,7 @@ public class Player extends GameObject {
             }
         }
     }
+ 
 
     // enemy collision
     private void handleEnemyCollision(GameObject enemy) {
@@ -129,7 +135,6 @@ public class Player extends GameObject {
             // Player hits the enemy from the top
             if (intersection.getWidth() > intersection.getHeight()) {
                 
-                //handler.removeObj(enemy);
                 enemy.freezeObject();
                 setVel_y(-100); // Bounce effect
 
@@ -164,12 +169,12 @@ public class Player extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+        return new Rectangle((int) getX(), (int) getY(), (int) getWidth() + 2, (int) getHeight() + 2);
     }
 
     // Add directional bounds if needed (e.g., for fine-tuning collisions)
     public Rectangle getBoundsTop() {
-        return new Rectangle((int) getX() + (int) getWidth() / 4, (int) getY(), (int) getWidth() / 2, (int) getHeight() / 4);
+        return new Rectangle((int) getX(), (int) getY() - 3, (int) getWidth(), (int) getHeight() / 4);
     }
 
     public Rectangle getBoundsRight() {
@@ -184,6 +189,7 @@ public class Player extends GameObject {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.RED);
         g2d.draw(getBounds());
+        g2d.draw(getBoundsTop());
     }
 
     public boolean getJump() {

@@ -19,7 +19,7 @@ public class Platform extends GameObject{
     private BufferedImage grass;
 
     public Platform(float x, float y, int height, int width, int scale) {
-        super(x, y, ObjectId.Block,width, height, scale);
+        super(x, y, ObjectId.Platform, width, height, scale);
         this.height = height;
         this.width = width;
         this.handler = handler;
