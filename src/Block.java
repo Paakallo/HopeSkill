@@ -15,18 +15,27 @@ public class Block extends GameObject{
     int height = 16;
     int width = 16;
 
+    int type; // 0 - grass block, 1 - dirt block
+
     //textures
     private BufferedImage grass;
+    private BufferedImage dirt;
 
-    public Block(float x, float y, int height, int width, int scale) {
+    public Block(float x, float y, int height, int width, int scale, int type) {
         super(x, y, ObjectId.Block, width, height, scale);
         this.height = height;
         this.width = width;
         this.handler = handler;
+        this.type = type;
 
         //initialize textures
         try {
             grass = ImageIO.read(new File("resources/grass.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dirt = ImageIO.read(new File("resources/ground.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,11 +44,10 @@ public class Block extends GameObject{
 
     public void render(Graphics g) {
 
-        if (grass != null) {
+        if (type == 0) {
             g.drawImage(grass, (int)getX(), (int)getY(), width, height, null);
         } else {
-            g.setColor(Color.white);
-            g.drawRect((int)getX(), (int)getY(), width, height);
+            g.drawImage(dirt, (int)getX(), (int)getY(), width, height, null);
         }
 
 

@@ -177,7 +177,6 @@ public class Menu extends MouseAdapter {
                 game.setGameState(GameState.MENU); // switch to menu
                 return;
             }
-
         }
     }
 }

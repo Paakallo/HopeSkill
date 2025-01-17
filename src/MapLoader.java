@@ -34,8 +34,23 @@ public class MapLoader {
                         block.getInt("y"),
                         block.getInt("height"),
                         block.getInt("width"),
-                        1 // Assuming scale is 1
+                        1,
+                        0
                 ));
+
+                int j = 50;
+                while (block.getInt("y")+j<Main.WINDOW_HEIGHT){
+                    handler.addObj(new Block(
+                        block.getInt("x"),
+                        block.getInt("y")+j,
+                        block.getInt("height"),
+                        block.getInt("width"),
+                        1,
+                        1
+                    ));
+                    j+=50;
+                }
+                j = 50;
             }
 
             // Parse pipes

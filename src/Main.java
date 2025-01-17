@@ -136,7 +136,13 @@ public class Main extends Canvas implements Runnable {
                 break;
             }
         }
-
+        //display Game Over after dying
+        if (state == GameState.GAME_OVER){
+            renderGame();
+            long timer1 = System.currentTimeMillis();
+            while (System.currentTimeMillis() - timer1 < 5000) {
+            }
+        }
         stopGame();
     }
 
