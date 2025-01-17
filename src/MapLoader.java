@@ -39,7 +39,7 @@ public class MapLoader {
                 ));
 
                 int j = 50;
-                while (block.getInt("y")+j<Main.WINDOW_HEIGHT){
+                while (block.getInt("y")+j<Main.WINDOW_HEIGHT+100){
                     handler.addObj(new Block(
                         block.getInt("x"),
                         block.getInt("y")+j,
@@ -115,7 +115,7 @@ public class MapLoader {
                     handler.addObj(new ReflectionPoint(
                             reflection.getInt("x"),
                             reflection.getInt("y"),
-                            1 // Scale
+                            1
                     ));
                 }
             }

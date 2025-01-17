@@ -16,6 +16,7 @@ public class Player extends GameObject {
 
     public static int health = 5;
     public static int reflections = 0;
+    public static boolean onPoint = false;
 
     private long lastDamageTime = 0; // Time in milliseconds
 
@@ -48,7 +49,7 @@ public class Player extends GameObject {
 
         for (int i = 0; i < steps; i++) {
             setY(getY() + (getVel_y() / steps));
-            handleCollisions();
+            handleCollisions(); //checking collision for every part of vertical velocity
         }
 
         // Apply gravity
@@ -57,6 +58,10 @@ public class Player extends GameObject {
         }
         // Handle collision
         handleCollisions();
+        // kill player if he falls off
+        if (getY()>500){
+            health = 0;
+        }
     }
 
     private void handleCollisions() {
@@ -65,22 +70,10 @@ public class Player extends GameObject {
         for (GameObject obj : objects) {
             if (obj == this) continue; // Skip self
 
-            if (obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Pipe || obj.getId() == ObjectId.Platform) {
+            if (obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Pipe || obj.getId() == ObjectId.Platform || obj.getId() == ObjectId.Reflection) {
                 resolveCollision(obj);
             } else if (obj.getId() == ObjectId.Enemy || obj.getId() == ObjectId.EnemyPatroller) {
                 handleEnemyCollision(obj);
-            }
-            else if (obj.getId() == ObjectId.Reflection) {
-                ReflectionPoint reflection = (ReflectionPoint) obj;
-
-                Rectangle playerBounds = getBounds();
-                Rectangle pointBounds = reflection.getBounds();
-                
-                if (playerBounds.intersects(pointBounds)) {
-                    if (reflection.activate(this)) {
-                        TaskManager.startReflectionTask(reflection, this);
-                    }
-                }
             }
         }
     }
@@ -99,6 +92,16 @@ public class Player extends GameObject {
                     setY(obj.getY() - getHeight());
                     setVel_y(0);
                     jump = false;
+                    // activate reflection task if player presses S while staying on a point
+                    if (obj.getId() == ObjectId.Reflection){
+                        if (onPoint){
+                            ReflectionPoint reflection = (ReflectionPoint) obj;
+                            if (reflection.activate(this)) {
+                                    TaskManager.startReflectionTask(reflection, this);
+                                }
+                        }
+                    }
+
                 } else {
                     System.out.println("Collision detected with " + obj.getId());
                     // // Colliding from the bottom
@@ -190,7 +193,7 @@ public class Player extends GameObject {
     public Rectangle getBoundsLeft() {
         return new Rectangle((int) getX(), (int) getY() + 5, 5, (int) getHeight() - 10);
     }
-
+    // debug purposes
     private void showBounds(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.RED);

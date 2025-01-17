@@ -34,7 +34,9 @@ public class Inputs extends KeyAdapter{
                 keys[2] = true;
             }
             //button for action
-            if (key == KeyEvent.VK_S){}
+            if (key == KeyEvent.VK_S){
+                Player.onPoint = true;
+            }
             
                 
             if (key == KeyEvent.VK_ESCAPE){
@@ -58,6 +60,10 @@ public class Inputs extends KeyAdapter{
         if (key == KeyEvent.VK_D){
                 keys[2] = false;
                 
+        }
+
+        if (key == KeyEvent.VK_S){
+            Player.onPoint = false;
         }
             
         if (!keys[1] && !keys[2]){

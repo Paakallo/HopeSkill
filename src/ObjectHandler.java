@@ -67,7 +67,7 @@ public class ObjectHandler {
 
     public void removeObjects(){
         objects.clear();
-        System.out.println(objects.size());
+        System.out.println("Objects on the map:" + objects.size());
     }
 
 }
