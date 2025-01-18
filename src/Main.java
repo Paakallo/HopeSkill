@@ -21,7 +21,8 @@ enum GameState {
     L3,
     L4,
     L5,
-    GAME_OVER
+    GAME_OVER,
+    VICTORY;
 }
 
 public class Main extends Canvas implements Runnable {
@@ -103,7 +104,7 @@ public class Main extends Canvas implements Runnable {
         long timer = System.currentTimeMillis();
         int frames = 0;
 
-        while (state != GameState.MENU && state != GameState.GAME_OVER) {
+        while (state != GameState.MENU && state != GameState.GAME_OVER && state != GameState.VICTORY) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -122,6 +123,11 @@ public class Main extends Canvas implements Runnable {
                 lifeCount--;
                 state = GameState.GAME_OVER; // activates restart function in stopGame
             }
+            // player finishes level
+            if (handler.getEndLevel()){
+                currLevel = state;
+                state = GameState.VICTORY;
+            }
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
@@ -136,11 +142,11 @@ public class Main extends Canvas implements Runnable {
                 break;
             }
         }
-        //display Game Over after dying
+        //display Game Over after dying for 2 sec
         if (state == GameState.GAME_OVER){
             renderGame();
             long timer1 = System.currentTimeMillis();
-            while (System.currentTimeMillis() - timer1 < 5000) {
+            while (System.currentTimeMillis() - timer1 < 2000) {
             }
         }
         stopGame();
@@ -164,10 +170,16 @@ public class Main extends Canvas implements Runnable {
             if (state == GameState.GAME_OVER){
                 if (lifeCount < 0){
                     state = GameState.MENU; //for now only this
+                    lifeCount = 3;
                 } else {
                     state = currLevel;
                     startLevel(currLevel);
                 }
+            } else if (state == GameState.VICTORY){
+                    state = getNextState(currLevel);
+                    System.out.println("NEXT STATE: "+ state);
+                    handler.setEndLevel(false);
+                    startLevel(state);
             } else {
                     lifeCount = 3;
             }
@@ -213,7 +225,9 @@ public class Main extends Canvas implements Runnable {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));
             g.drawString("GAME OVER", WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2);
-        } else {
+        } 
+        //TODO: some nice animation for the finish
+        else {
         
             // g.setColor(Color.BLACK);
             // g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
@@ -235,8 +249,10 @@ public class Main extends Canvas implements Runnable {
     void startLevel(GameState selLevel){
         
         mapLoader.loadMap(selLevel);
+
         currLevel = GameState.MENU; //reset currentLevel
-        
+        state = selLevel;
+
         gameThread = new Thread(this, "Game");
         gameThread.start();
     }
@@ -249,6 +265,12 @@ public class Main extends Canvas implements Runnable {
         main.startMenu();
     }
 
+    // get next level
+    public GameState getNextState(GameState current) {
+        GameState[] values = GameState.values();
+        int nextIndex = (current.ordinal() + 1) % values.length;
+        return values[nextIndex];
+    }
 
     GameState getGameState(){
         return state;
@@ -258,4 +280,14 @@ public class Main extends Canvas implements Runnable {
         state=nState;  
 
     }
+
+    int getLifeCount(){
+        return lifeCount;
+    }
+    
+    void setLifeCount(int nlife){
+        lifeCount=nlife;  
+
+    }
+
 }

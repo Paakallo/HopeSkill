@@ -7,6 +7,9 @@ public class ObjectHandler {
     private List<GameObject> objects;
     private Player player;
 
+    private boolean endOfLevel = false;
+
+
     public ObjectHandler(){
         objects = new LinkedList<GameObject>();
     }
@@ -70,4 +73,12 @@ public class ObjectHandler {
         System.out.println("Objects on the map:" + objects.size());
     }
 
+
+    public void setEndLevel(boolean end){
+        endOfLevel = end;
+    }
+
+    public boolean getEndLevel(){
+        return endOfLevel;
+    }
 }

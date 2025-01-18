@@ -120,6 +120,17 @@ public class MapLoader {
                 }
             }
 
+            // Parse Flag
+            if (json.has("Flag")) {
+                JSONObject flag = json.getJSONObject("Flag");
+                handler.addObj(new Flag(
+                    flag.getInt("x"),
+                    flag.getInt("y"),
+                    1
+                ));
+            
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

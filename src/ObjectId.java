@@ -5,5 +5,6 @@ public enum ObjectId {
     Block,
     Pipe,
     Platform,
-    Reflection;
+    Reflection,
+    Flag;
 }

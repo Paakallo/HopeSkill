@@ -9,14 +9,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Menu extends MouseAdapter {
-    public Main game;
-    public boolean startGameClicked = false;
+    private Main game;
+    private boolean startGameClicked = false;
 
     //graphics
     private BufferedImage backgroundImage;
     private BufferedImage playButton;
     private BufferedImage levelButton;
     private BufferedImage heart;
+    private BufferedImage reflection;
 
     static int BUTTON_WIDTH = 200;
     static int BUTTON_HEIGHT = 100;
@@ -62,6 +63,11 @@ public class Menu extends MouseAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            reflection = ImageIO.read(new File("resources/reflection.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,7 +100,14 @@ public class Menu extends MouseAdapter {
             // Draw hearts based on current health
             for (int i = 0; i < Player.health; i++) {
                 g.drawImage(heart, 1220 - (i * 30), 0, HEART_WIDTH, HEART_HEIGHT, null);
-            } 
+            }
+            
+            // draw relfections
+            g.drawImage(reflection, 950, 0, HEART_WIDTH, HEART_HEIGHT, null);
+            g.drawString(String.valueOf(Player.reflections), 910, 25); // Position the number near the reflection image
+            g.drawString(String.valueOf("X"), 930, 25); // Position the number near the reflection image
+
+            g.drawString(String.valueOf(game.getLifeCount()), 810, 25); // Position the number near the reflection image
         }
     }
 

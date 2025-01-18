@@ -74,10 +74,13 @@ public class Player extends GameObject {
                 resolveCollision(obj);
             } else if (obj.getId() == ObjectId.Enemy || obj.getId() == ObjectId.EnemyPatroller) {
                 handleEnemyCollision(obj);
+            } else if (obj.getId() == ObjectId.Flag) {
+                handleFlagCollision(obj);
             }
+            
         }
     }
-// object collision
+    // object collision
     private void resolveCollision(GameObject obj) {
         Rectangle playerBounds = getBounds();
         Rectangle objBounds = obj.getBounds();
@@ -151,13 +154,21 @@ public class Player extends GameObject {
 
                 // Player collides with the enemy otherwise
                 health--; 
-                System.out.println(health);
+                System.out.println("Health: " + health);
                 lastDamageTime = currentTime; // Update last damage time
 
                 if (health <= 0) {
                     System.out.println("Game Over!");
                 }
             }
+        }
+    }
+
+
+    private void handleFlagCollision(GameObject obj){
+        if (getBounds().intersects(obj.getBounds())) {
+            handler.setEndLevel(true);
+            //System.out.println("yesj");
         }
     }
 
