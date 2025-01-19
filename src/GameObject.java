@@ -82,4 +82,8 @@ public abstract class GameObject {
     public ObjectId getId(){
         return this.id;
     }
+
+    public void setId(ObjectId Id){
+        this.id=Id;
+    }
 }

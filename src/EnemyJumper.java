@@ -14,30 +14,33 @@ public class EnemyJumper extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+        if (isAlive){
+            g.setColor(Color.BLUE);
+            g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+        }
     }
 
     @Override
     public void tick() {
-        setX(getX() + getVel_x());
-        setY(getY() + getVel_y());
+        if (isAlive){
+            setX(getX() + getVel_x());
+            setY(getY() + getVel_y());
 
-        // Apply gravity
-        if (!isGrounded()) {
-            gravity();
+            // Apply gravity
+            if (!isGrounded()) {
+                gravity();
+            }
+
+            // Handle collisions
+            handleCollisions();
+
+
+            if (isJumping) {
+                setVel_y(-80); // Jump up
+                isJumping = false;
+            }
         }
-
-        // Handle collisions
-        handleCollisions();
-
-        // Simulate jumping
-        if (!isJumping && isGrounded()) {
-            setVel_y(-5); // Jump up
-            isJumping = true;
-        } else if (isGrounded()) {
-            isJumping = false;
-        }
+        
     }
 
     private void handleCollisions() {
@@ -65,7 +68,7 @@ public class EnemyJumper extends GameObject {
                     // Colliding from the top
                     setY(obj.getY() - getHeight());
                     setVel_y(0);
-                    isJumping = false; // Reset jump state
+                    isJumping = true; // Reset jump state, by default jumper is jumping
                 } else {
                     // Colliding from the bottom
                     setY(obj.getY() + obj.getHeight());
@@ -85,9 +88,9 @@ public class EnemyJumper extends GameObject {
     }
 
     private boolean isGrounded() {
-        List<GameObject> objects = handler.getObjects();
+        
 
-        for (GameObject obj : objects) {
+        for (GameObject obj : handler.getObjects()) {
             if (obj == this) continue;
 
             if ((obj.getId() == ObjectId.Block || obj.getId() == ObjectId.Platform) && getBounds().intersects(obj.getBounds())) {

@@ -147,8 +147,9 @@ public class Player extends GameObject {
             // Player hits the enemy from the top
             if (intersection.getWidth() > intersection.getHeight()) {
                 
+                setVel_y(-1000); // Bounce effect
                 enemy.freezeObject();
-                setVel_y(-100); // Bounce effect
+                enemy.setId(ObjectId.Dead); // without this line bounce effect works, but the enemy collision works always
 
             } else if (currentTime - lastDamageTime >= 2000) { // Check 2-second cooldown
 

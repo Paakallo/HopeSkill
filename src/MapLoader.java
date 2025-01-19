@@ -81,7 +81,7 @@ public class MapLoader {
                     ));
                 }
             }
-            // Parse enemy
+            // Parse enemies
             if (json.has("EnemyPatroller")) {
                 JSONArray patrollers = json.getJSONArray("EnemyPatroller");
                 for (int i = 0; i < patrollers.length(); i++) {
@@ -93,6 +93,19 @@ public class MapLoader {
                         patroller.getInt("height"),
                         patroller.getInt("minX"),
                         patroller.getInt("maxX"),
+                        1,
+                        handler    
+                    ));
+                }
+            }
+
+            if (json.has("EnemyJumper")) {
+                JSONArray jumpers = json.getJSONArray("EnemyJumper");
+                for (int i = 0; i < jumpers.length(); i++) {
+                    JSONObject jumper = jumpers.getJSONObject(i);
+                    handler.addObj(new EnemyJumper(
+                        jumper.getInt("x"),
+                        jumper.getInt("y"),
                         1,
                         handler    
                     ));
