@@ -45,6 +45,8 @@ public class Player extends GameObject {
         setX(getX() + getVel_x());
         //setY(getY() + getVel_y());
 
+        //System.out.println(setX(getX() + getVel_x()));
+
         int steps = Math.max(1, (int) Math.ceil(Math.abs(getVel_y()) / 5)); // Divide velocity into steps
 
         for (int i = 0; i < steps; i++) {

@@ -19,8 +19,8 @@ public class ObjectHandler {
         Iterator<GameObject> it = objects.iterator();
         while (it.hasNext()) {
             GameObject obj = it.next();
-            // if (obj.getId() == ObjectId.Enemy){
-            //     System.out.println(obj);
+            // if (obj.getId() == ObjectId.Flag){
+            //     System.out.println(obj.getX());
             // }
             obj.tick();
         }
