@@ -519,8 +519,8 @@
         "y": 350
     },
     "ReflectionPoint": [
-        {"x": 300, "y": 330,"task1":"Some tesxt"},
-        {"x": 2950, "y": 368}
+        {"x": 300, "y": 330, "question":"Some tesxt", "answ1":"asd", "answ2":"sfhgf"},
+        {"x": 2950, "y": 368, "question":"skibidi tesxt", "answ1":"ohio", "answ2":"rizzler"}
     ],
     "Flag":{"x": 4150, "y": 368}
 }

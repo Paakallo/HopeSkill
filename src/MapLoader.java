@@ -128,7 +128,10 @@ public class MapLoader {
                     handler.addObj(new ReflectionPoint(
                             reflection.getInt("x"),
                             reflection.getInt("y"),
-                            1
+                            1,
+                            reflection.getString("question"),
+                            reflection.getString("answ1"),
+                            reflection.getString("answ2")
                     ));
                 }
             }

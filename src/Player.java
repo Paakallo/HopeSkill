@@ -107,21 +107,15 @@ public class Player extends GameObject {
 
                 } else {
                     System.out.println("Collision detected with " + obj.getId());
-                    // // Colliding from the bottom
+                    // Colliding from the bottom
                     setY(obj.getY() + obj.getHeight());
                     setVel_y(0);
                 }  
             } else {
                 // Horizontal collision
-                // if (jump){
-                //     setVel_y(1);
-                // }
                 if (getX() < obj.getX()) {
                     // Colliding from the left
                     setX(obj.getX() - getWidth());
-                    // if (getVel_y()<-3){
-                    //     setVel_y(2);
-                    // }
                 } else {
                     // Colliding from the right
                     setX(obj.getX() + obj.getWidth());

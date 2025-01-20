@@ -7,8 +7,15 @@ public class ReflectionPoint extends GameObject {
     private boolean isActive = true;
     private boolean taskCompleted = false;
 
-    public ReflectionPoint(float x, float y, int scale) {
+    String ques;
+    String answ1;
+    String answ2;
+
+    public ReflectionPoint(float x, float y, int scale, String ques, String answ1, String answ2) {
         super(x, y, ObjectId.Reflection, 32, 32, scale);
+        this.ques = ques;
+        this.answ1 = answ1;
+        this.answ2 = answ2;
     }
 
     @Override
@@ -45,5 +52,17 @@ public class ReflectionPoint extends GameObject {
         taskCompleted = true;
         player.health += 2; // Nagroda za ukończenie refleksji
         player.reflections += 1;
+    }
+
+    public String getQuestion() {
+        return ques;
+    }
+
+    public String getAnsw1() {
+        return answ1;
+    }
+
+    public String getAnsw2() {
+        return answ2;
     }
 }
