@@ -1,13 +1,23 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+
+/**
+ * Represents a generic game object in the game world.
+ * <p>
+ * This class serves as a base for all entities and objects
+ * in the game, providing common properties like position,
+ * velocity, dimensions, and an identifier for object types.
+ * </p>
+ *
+ */
 public abstract class GameObject {
     //coordinates
     private float x,y;
     private float vel_x,vel_y;
     private ObjectId id;
     private float width, height;
-
+    // a check if an object is alive
     protected boolean isAlive = true;
 
 
@@ -19,14 +29,44 @@ public abstract class GameObject {
         this.height = height; 
     }
 
+    /**
+     * Renders the object on the screen. To be implemented by subclasses.
+     *
+     * @param g the graphics context used for rendering
+     */
     abstract void render(Graphics g);
+
+    /**
+     * Updates the object's state. To be implemented by subclasses.
+     */
     abstract void tick();
+
+    /**
+     * Retrieves the bounding area of the object.
+     *
+     * @return a {@code Rectangle} representing the object's bounds
+     */
     abstract Rectangle getBounds();
     
+    /**
+     * Applies gravity to isntances of subclasses, which interact with the world
+     * <p>
+     * This method sets the value of vertical velocity to 3.
+     * For proper function it requires {@link isGrounded method}
+     * </p>
+     */
     public void gravity(){
         setVel_y(3);
     }
 
+    /**
+     * Stops tick and render methods pf an object
+     * <p>
+     * This method exists to avoid synchronization issues,
+     * when an object is removed from the {@link linkedList}
+     * 
+     * </p>
+     */
     public void freezeObject(){
         isAlive = false;
     }

@@ -110,7 +110,6 @@ public class EnemyJumper extends GameObject {
                 return true;
             }
         }
-
         return false;
     }
 

@@ -16,7 +16,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import org.w3c.dom.events.MouseEvent;
 
 enum GameState {
     MENU,
@@ -30,13 +29,41 @@ enum GameState {
     VICTORY;
 }
 
+/**
+ * The main class for the game "HopeSkill".
+ * <p>
+ * This class initializes the game, manages the main game loop,
+ * handles transitions between game states (e.g., menu, gameplay, game over),
+ * and provides rendering and game logic updates.
+ * </p>
+ *
+
+ */
 public class Main extends Canvas implements Runnable {
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
 
+
+/**
+ * The current game state and the current level being played.
+ * <p>
+ * {@code state} represents the overall state of the game, such as whether the game is in the menu,
+ * active gameplay, game over, or victory. {@code currLevel} keeps track of the specific level
+ * being played and is used to restore the game state after transitions like game over.
+ * </p>
+ */
     private GameState state = GameState.MENU;
     private GameState currLevel = GameState.MENU;
 
+
+/**
+ * Core components for managing game objects, camera view, and map loading.
+ * <p>
+ * {@code handler} manages all the game objects, including their creation, updates, and removal.
+ * {@code camera} handles the view, ensuring the player's position is centered within the game world.
+ * {@code mapLoader} is responsible for loading and setting up the maps for each level.
+ * </p>
+ */    
     private ObjectHandler handler;
     private Camera camera;
     private MapLoader mapLoader;
@@ -52,6 +79,23 @@ public class Main extends Canvas implements Runnable {
     private BufferedImage gameBackground;
 
 
+    /**
+     * Constructs the main game instance and initializes its components.
+     * <p>
+     * This constructor performs the following actions:
+     * </p>
+     * <ul>
+     *     <li>Creates a new game window with the specified dimensions and title.</li>
+     *     <li>Initializes the {@code ObjectHandler} to manage game objects.</li>
+     *     <li>Attaches key and mouse listeners for player input and menu interactions.</li>
+     *     <li>Initializes the {@code MapLoader} to load game levels and maps.</li>
+     *     <li>Sets up the camera to follow the player during gameplay.</li>
+     *     <li>Loads the background image from a specified file path.</li>
+     * </ul>
+     * <p>
+     * Any errors during the loading of the background image are caught and logged.
+     * </p>
+     */
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
@@ -71,6 +115,17 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
+
+/**
+ * Starts the menu thread and initializes the menu rendering process.
+ * <p>
+ * This method sets the game state to {@code GameState.MENU} and starts a new thread
+ * named "MenuThread". The thread continuously renders the menu at approximately 60 frames
+ * per second until interrupted. It ensures smooth updates of the menu screen.
+ * Menu thread is always running, if {@code state} is MENU it renders menu,
+ * otherwise it renders menu bar
+ * </p>
+*/
     public synchronized void startMenu() {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
@@ -89,6 +144,8 @@ public class Main extends Canvas implements Runnable {
         },"MenuThread");
         menuThread.start();
     }
+
+
     // function for debug purposes
     private synchronized void stopMenu() {
         if (menuThread != null && menuThread.isAlive()) {
@@ -101,6 +158,25 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
+
+    /**
+     * The main game loop.
+     * <p>
+     * This method handles all core functionality of the game, ensuring continuous updates and rendering
+     * at a stable frame rate. The game loop performs the following:
+     * </p>
+     * <ul>
+     *     <li>Tracks elapsed time to manage consistent updates using the {@code tick} method.</li>
+     *     <li>Renders the game state to the screen using {@code renderGame}.</li>
+     *     <li>Handles transitions between game states such as game over or victory.</li>
+     *     <li>Maintains a frame counter to calculate and display frames per second (FPS).</li>
+     * </ul>
+     * <p>
+     * The loop runs as long as the game is in an active state (e.g., not in the menu or game over). If a
+     * termination condition is met, such as the player losing all lives, the game transitions to the
+     * appropriate state and cleans up resources using {@code stopGame}.
+     * </p>
+     */
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -123,7 +199,7 @@ public class Main extends Canvas implements Runnable {
             renderGame(); // Render frame
             frames++;
 
-            //end game after death
+            // game over after death
             if (Player.health == 0){
                 currLevel = state;
                 lifeCount--;
@@ -140,7 +216,7 @@ public class Main extends Canvas implements Runnable {
                 System.out.println("FPS: " + frames);
                 frames = 0;
             }
-            // lock on 60 FPS somehow makes rendering unstable that's why it is commented
+
             try {
                 Thread.sleep(16); // Approx. 60 FPS
             } catch (InterruptedException e) {
@@ -159,6 +235,18 @@ public class Main extends Canvas implements Runnable {
     }
 
 
+/**
+     * Stops the game thread and handles state transitions.
+     * <p>
+     * This method ensures a clean termination of the game thread and transitions
+     * the game to an appropriate state based on the outcome (e.g., game over or victory).
+     * It performs cleanup by removing all game objects and resetting the player's health.
+     * </p>
+     * <p>
+     * If the player has lost all lives, the game transitions back to the main menu. Otherwise,
+     * it restarts the current level or progresses to the next level, depending on the state.
+     * </p>
+*/
     private synchronized void stopGame() {
         if (gameThread != null && gameThread.isAlive()) {
             gameThread.interrupt();
@@ -192,6 +280,10 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
+
+    /**
+     * Updates game logic of each object
+     */
     private void tick() {
         if (state != GameState.MENU && state != GameState.GAME_OVER) {
             handler.tick();
@@ -204,6 +296,18 @@ public class Main extends Canvas implements Runnable {
     }
 
 
+/**
+     * Renders the menu screen.
+     * <p>
+     * This method is responsible for rendering all visual elements of the game's menu.
+     * It uses a double-buffering strategy to ensure smooth animations and updates.
+     * The {@code Menu} object handles the actual rendering of menu components.
+     * </p>
+     * <p>
+     * If the buffer strategy is not initialized, it creates a triple-buffer strategy
+     * to optimize rendering performance.
+     * </p>
+*/
     private void renderMenu() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
@@ -219,6 +323,24 @@ public class Main extends Canvas implements Runnable {
     }
 
 
+    /**
+     * Renders the game screen.
+     * <p>
+     * This method handles rendering the main game view, including the background,
+     * game objects, and camera adjustments. It ensures that all graphical elements
+     * are displayed correctly relative to the player's position.
+     * </p>
+     * <p>
+     * If the game state is {@code GameState.GAME_OVER}, it displays a "GAME OVER"
+     * message centered on the screen. Otherwise, it draws the game background,
+     * adjusts the view based on the camera, and renders all active game objects
+     * through the {@code ObjectHandler}.
+     * </p>
+     * <p>
+     * Similar to {@code renderMenu}, a triple-buffering strategy is used to optimize
+     * performance and reduce visual artifacts during rendering.
+     * </p>
+     */
     private void renderGame() {
         BufferStrategy buf = this.getBufferStrategy();
         if (buf == null) {
@@ -249,6 +371,17 @@ public class Main extends Canvas implements Runnable {
     }
     
 
+/**
+     * Starts the specified game level.
+     * <p>
+     * This method loads the specified level using {@code MapLoader} and prepares
+     * the game state for active gameplay. The current level is reset to {@code GameState.MENU}
+     * before transitioning to the selected level. A new game thread is started to handle
+     * the main game loop.
+     * </p>
+     *
+     * @param selLevel the level to start
+*/
     void startLevel(GameState selLevel){
         
         mapLoader.loadMap(selLevel);
@@ -268,7 +401,13 @@ public class Main extends Canvas implements Runnable {
         main.startMenu();
     }
 
-    // get next level
+
+/**
+ * Retrieves the next game state based on the current state.
+ *
+ * @param current the current game state
+ * @return the next game state
+ */
     public GameState getNextState(GameState current) {
         GameState[] values = GameState.values();
         int nextIndex = (current.ordinal() + 1) % values.length;
@@ -292,6 +431,8 @@ public class Main extends Canvas implements Runnable {
         lifeCount=nlife;  
     }
 
+
+
     public static void playSound(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
@@ -305,6 +446,7 @@ public class Main extends Canvas implements Runnable {
     }
 
     
+
     public void playBackgroundMusic(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
