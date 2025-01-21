@@ -46,6 +46,7 @@ public class Main extends Canvas implements Runnable {
 
     private BufferedImage gameBackground;
 
+    
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
@@ -68,7 +69,6 @@ public class Main extends Canvas implements Runnable {
     public synchronized void startMenu() {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
-            // for now True, as it will render only parts of menu depending on GameState
             //menu.playBackgroundMusic("sound/Music-Overworld_Day.wav");
             while (true) {
                 renderMenu();
@@ -226,12 +226,9 @@ public class Main extends Canvas implements Runnable {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 50));
             g.drawString("GAME OVER", WINDOW_WIDTH / 2 - 150, WINDOW_HEIGHT / 2);
-        } 
-        //TODO: some nice animation for the finish
-        else {
+        } else {
         
-            // g.setColor(Color.BLACK);
-            // g.fillRect(0, 51, getWidth(), getHeight()); //give a place for menu
+            //give a place for menu
             g.drawImage(gameBackground, 0, 51, getWidth(), getHeight(), null);
 
         
@@ -288,7 +285,6 @@ public class Main extends Canvas implements Runnable {
     
     void setLifeCount(int nlife){
         lifeCount=nlife;  
-
     }
 
 }

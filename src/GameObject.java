@@ -26,9 +26,7 @@ public abstract class GameObject {
     abstract Rectangle getBounds();
     
     public void gravity(){
-
         setVel_y(3);
-
     }
 
     public void freezeObject(){

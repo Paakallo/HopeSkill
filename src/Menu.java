@@ -25,7 +25,6 @@ public class Menu extends MouseAdapter {
 
     //graphics
     private BufferedImage backgroundImage;
-    private BufferedImage playButton;
     private BufferedImage levelButton;
     private BufferedImage heart;
     private BufferedImage reflection;
@@ -36,8 +35,6 @@ public class Menu extends MouseAdapter {
     int PLAY_BUTTON_X = 510;
     int PLAY_BUTTON_Y = 300;
 
-    // static int BUTTON_WIDTH = 200;
-    // static int BUTTON_HEIGHT = 100;
 
     int RETURN_BUTTON_X = 0;
     int RETURN_BUTTON_Y = 0;
@@ -60,11 +57,6 @@ public class Menu extends MouseAdapter {
             e.printStackTrace();
         }
         try {
-            playButton = ImageIO.read(new File("resources/play_button.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             levelButton = ImageIO.read(new File("resources/open_level.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,6 +73,7 @@ public class Menu extends MouseAdapter {
         }
 
     }
+
 
     public void render (Graphics g){
 
@@ -106,7 +99,6 @@ public class Menu extends MouseAdapter {
             g.setFont(new Font("Arial", Font.PLAIN, 30));
             g.drawString("Return", RETURN_BUTTON_X + 20, RETURN_BUTTON_Y + 35);
 
-            // check health
            
             // Draw hearts based on current health
             for (int i = 0; i < Player.health; i++) {
@@ -122,16 +114,13 @@ public class Menu extends MouseAdapter {
         }
     }
 
-    /** 
-    * render start menu
-    */
-    // TODO use good font
+   
     public void renderStartMenu(Graphics g){
-        // Render menu text and buttons
+            // Render menu text and buttons
         
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, 40));
-            // g.drawRect(510, 300, 200, 50);
+            
             g.drawString("Start Game", PLAY_BUTTON_X + 20, PLAY_BUTTON_Y + 35);
 
             g.drawString("Quit", PLAY_BUTTON_X + 20, PLAY_BUTTON_Y + 135);

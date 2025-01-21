@@ -16,7 +16,7 @@ public class Pipe extends GameObject{
     int width = 16;
 
     //textures
-    private BufferedImage grass;
+    private BufferedImage pipe;
 
     public Pipe(float x, float y, int height, int width, int scale) {
         super(x, y, ObjectId.Block,width, height, scale);
@@ -24,26 +24,19 @@ public class Pipe extends GameObject{
         this.width = width;
         this.handler = handler;
 
-        //initialize textures
-        // try {
-        //     grass = ImageIO.read(new File("resources/pipe.png"));
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
 
+        try {
+            pipe = ImageIO.read(new File("resources/pipe.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     public void render(Graphics g) {
 
-        // if (grass != null) {
-        //     g.drawImage(grass, (int)getX(), (int)getY(), width, height, null);
-        // } else {
-        //     g.setColor(Color.white);
-        //     g.drawRect((int)getX(), (int)getY(), width, height);
-        // }
-            g.setColor(Color.white);
-            g.drawRect((int)getX(), (int)getY(), width, height);
-
+        g.drawImage(pipe, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
+        
 
         
     }

@@ -29,8 +29,6 @@ public class EnemyJumper extends GameObject {
     @Override
     public void render(Graphics g) {
         if (isAlive){
-            //g.setColor(Color.BLUE);
-            //g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
             g.drawImage(jumper, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
         }
     }
@@ -116,6 +114,7 @@ public class EnemyJumper extends GameObject {
         return false;
     }
 
+    
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());

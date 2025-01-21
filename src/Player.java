@@ -43,9 +43,6 @@ public class Player extends GameObject {
     public void tick() {
         // Update position
         setX(getX() + getVel_x());
-        //setY(getY() + getVel_y());
-
-        //System.out.println(setX(getX() + getVel_x()));
 
         int steps = Math.max(1, (int) Math.ceil(Math.abs(getVel_y()) / 5)); // Divide velocity into steps
 
@@ -58,8 +55,10 @@ public class Player extends GameObject {
         if (!isGrounded()) {
             gravity();
         }
+
         // Handle collision
         handleCollisions();
+
         // kill player if he falls off
         if (getY()>500){
             health = 0;
@@ -194,20 +193,6 @@ public class Player extends GameObject {
         return new Rectangle((int) getX(), (int) getY() - 3, (int) getWidth(), (int) getHeight() / 4);
     }
 
-    public Rectangle getBoundsRight() {
-        return new Rectangle((int) getX() + (int) getWidth() - 5, (int) getY() + 5, 5, (int) getHeight() - 10);
-    }
-
-    public Rectangle getBoundsLeft() {
-        return new Rectangle((int) getX(), (int) getY() + 5, 5, (int) getHeight() - 10);
-    }
-    // debug purposes
-    private void showBounds(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.RED);
-        g2d.draw(getBounds());
-        g2d.draw(getBoundsTop());
-    }
 
     public boolean getJump() {
         return jump;
@@ -215,5 +200,14 @@ public class Player extends GameObject {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+
+    // debug purposes
+    private void showBounds(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g.setColor(Color.RED);
+        g2d.draw(getBounds());
+        g2d.draw(getBoundsTop());
     }
 }

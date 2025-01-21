@@ -31,8 +31,6 @@ public class EnemyPatroller extends GameObject {
     @Override
     public void render(Graphics g) {
         if (isAlive){
-            //g.setColor(Color.RED);
-            //g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
             g.drawImage(patroller, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
         }
     }
@@ -106,6 +104,7 @@ public class EnemyPatroller extends GameObject {
         }
     }
 
+    
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
