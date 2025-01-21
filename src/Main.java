@@ -69,6 +69,7 @@ public class Main extends Canvas implements Runnable {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
             // for now True, as it will render only parts of menu depending on GameState
+            menu.playBackgroundMusic("sound/Music-Overworld_Day.wav");
             while (true) {
                 renderMenu();
                 try {

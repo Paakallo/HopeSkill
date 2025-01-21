@@ -7,6 +7,17 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 
 public class Menu extends MouseAdapter {
     private Main game;
@@ -192,4 +203,31 @@ public class Menu extends MouseAdapter {
             }
         }
     }
+
+
+    public void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public void playBackgroundMusic(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
