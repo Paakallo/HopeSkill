@@ -10,6 +10,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.w3c.dom.events.MouseEvent;
 
@@ -46,7 +51,7 @@ public class Main extends Canvas implements Runnable {
 
     private BufferedImage gameBackground;
 
-    
+
     public Main() {
         new GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "HopeSkill", this);
         handler = new ObjectHandler();
@@ -69,7 +74,7 @@ public class Main extends Canvas implements Runnable {
     public synchronized void startMenu() {
         state = GameState.MENU;
         menuThread = new Thread(() -> {
-            //menu.playBackgroundMusic("sound/Music-Overworld_Day.wav");
+            playBackgroundMusic("sound/Music-Overworld_Day.wav");
             while (true) {
                 renderMenu();
                 try {
@@ -285,6 +290,31 @@ public class Main extends Canvas implements Runnable {
     
     void setLifeCount(int nlife){
         lifeCount=nlife;  
+    }
+
+    public static void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public void playBackgroundMusic(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -194,29 +194,6 @@ public class Menu extends MouseAdapter {
     }
 
 
-    public void playSound(String soundFilePath) {
-        try {
-            File soundFile = new File(soundFilePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
-
     
-    public void playBackgroundMusic(String soundFilePath) {
-        try {
-            File soundFile = new File(soundFilePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
     
 }
