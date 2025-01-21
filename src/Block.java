@@ -21,8 +21,8 @@ public class Block extends GameObject{
     private BufferedImage grass;
     private BufferedImage dirt;
 
-    public Block(float x, float y, int height, int width, int scale, int type) {
-        super(x, y, ObjectId.Block, width, height, scale);
+    public Block(float x, float y, int height, int width, int type) {
+        super(x, y, ObjectId.Block, width, height);
         this.height = height;
         this.width = width;
         this.handler = handler;

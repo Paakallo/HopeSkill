@@ -15,8 +15,8 @@ public class EnemyJumper extends GameObject {
     private BufferedImage jumper;
 
 
-    public EnemyJumper(float x, float y, int scale, ObjectHandler handler) {
-        super(x, y, ObjectId.Enemy, 32, 32, scale);
+    public EnemyJumper(float x, float y, ObjectHandler handler) {
+        super(x, y, ObjectId.Enemy, 32, 32);
         this.handler = handler;
 
          try {

@@ -7,18 +7,16 @@ public abstract class GameObject {
     private float vel_x,vel_y;
     private ObjectId id;
     private float width, height;
-    private int scale;
 
     protected boolean isAlive = true;
 
 
-    public GameObject(float x, float y,ObjectId id, float width, float height, int scale){
-        this.x = x*scale;
-        this.y = y*scale;
+    public GameObject(float x, float y,ObjectId id, float width, float height){
+        this.x = x;
+        this.y = y;
         this.id = id;
-        this.width = width*scale;
-        this.height = height*scale;
-        this.scale = scale;   
+        this.width = width;
+        this.height = height; 
     }
 
     abstract void render(Graphics g);

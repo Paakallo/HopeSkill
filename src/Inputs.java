@@ -21,7 +21,7 @@ public class Inputs extends KeyAdapter{
 
                     keys[0] = true;
                     handler.getPlayer().setJump(true);
-                    Main.playSound("sound/Mario-jump-sound.wav");
+                    //Main.playSound("sound/Mario-jump-sound.wav");
                 }
             }
             //left

@@ -14,10 +14,10 @@ public class EnemyPatroller extends GameObject {
 
     private BufferedImage patroller;
 
-    public EnemyPatroller(float x, float y, int width, int height, float minX, float maxX, int scale, ObjectHandler handler) {
-        super(x, y, ObjectId.Enemy, 32, 32, scale);
-        this.minX = minX * scale;
-        this.maxX = maxX * scale;
+    public EnemyPatroller(float x, float y, int width, int height, float minX, float maxX, ObjectHandler handler) {
+        super(x, y, ObjectId.Enemy, 32, 32);
+        this.minX = minX;
+        this.maxX = maxX;
         this.handler = handler;
         setVel_X(2); // Initial speed
 

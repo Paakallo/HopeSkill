@@ -18,8 +18,8 @@ public class ReflectionPoint extends GameObject {
     String answ1;
     String answ2;
 
-    public ReflectionPoint(float x, float y, int scale, String ques, String answ1, String answ2) {
-        super(x, y, ObjectId.Reflection, 50, 50, scale);
+    public ReflectionPoint(float x, float y, String ques, String answ1, String answ2) {
+        super(x, y, ObjectId.Reflection, 50, 50);
         this.ques = ques;
         this.answ1 = answ1;
         this.answ2 = answ2;

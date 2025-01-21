@@ -34,7 +34,6 @@ public class MapLoader {
                         block.getInt("y"),
                         block.getInt("height"),
                         block.getInt("width"),
-                        1,
                         0
                 ));
 
@@ -45,7 +44,6 @@ public class MapLoader {
                         block.getInt("y")+j,
                         block.getInt("height"),
                         block.getInt("width"),
-                        1,
                         1
                     ));
                     j+=50;
@@ -62,8 +60,7 @@ public class MapLoader {
                         pipe.getInt("x"),
                         pipe.getInt("y"),
                         pipe.getInt("height"),
-                        pipe.getInt("width"),
-                            1 // Assuming scale is 1
+                        pipe.getInt("width")
                     ));
                 }
             }
@@ -76,8 +73,7 @@ public class MapLoader {
                         platform.getInt("x"),
                         platform.getInt("y"),
                         platform.getInt("height"),
-                        platform.getInt("width"),
-                            1 // Assuming scale is 1
+                        platform.getInt("width")
                     ));
                 }
             }
@@ -93,7 +89,6 @@ public class MapLoader {
                         patroller.getInt("height"),
                         patroller.getInt("minX"),
                         patroller.getInt("maxX"),
-                        1,
                         handler    
                     ));
                 }
@@ -106,7 +101,6 @@ public class MapLoader {
                     handler.addObj(new EnemyJumper(
                         jumper.getInt("x"),
                         jumper.getInt("y"),
-                        1,
                         handler    
                     ));
                 }
@@ -116,7 +110,6 @@ public class MapLoader {
             handler.setPlayer(new Player(
                     player.getInt("x"),
                     player.getInt("y"),
-                    1, // Assuming scale is 1
                     handler
             ));
 
@@ -128,7 +121,6 @@ public class MapLoader {
                     handler.addObj(new ReflectionPoint(
                             reflection.getInt("x"),
                             reflection.getInt("y"),
-                            1,
                             reflection.getString("question"),
                             reflection.getString("answ1"),
                             reflection.getString("answ2")
@@ -141,8 +133,7 @@ public class MapLoader {
                 JSONObject flag = json.getJSONObject("Flag");
                 handler.addObj(new Flag(
                     flag.getInt("x"),
-                    flag.getInt("y"),
-                    1
+                    flag.getInt("y")
                 ));
             
             }

@@ -13,8 +13,8 @@ public class Flag extends GameObject {
     private BufferedImage flag;
 
 
-    public Flag(float x, float y, int scale) {
-        super(x, y, ObjectId.Flag, 32, 32, 1);
+    public Flag(float x, float y) {
+        super(x, y, ObjectId.Flag, 32, 32);
 
 
         try {

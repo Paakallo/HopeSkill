@@ -18,8 +18,8 @@ public class Pipe extends GameObject{
     //textures
     private BufferedImage pipe;
 
-    public Pipe(float x, float y, int height, int width, int scale) {
-        super(x, y, ObjectId.Block,width, height, scale);
+    public Pipe(float x, float y, int height, int width) {
+        super(x, y, ObjectId.Block,width, height);
         this.height = height;
         this.width = width;
         this.handler = handler;
