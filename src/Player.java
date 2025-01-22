@@ -150,7 +150,7 @@ public class Player extends GameObject {
                 
                 
                 setVel_y(-30); // Bounce effect
-                //Main.playSound("sound/Voicy_Monster death sound effect.wav"); 
+                Main.playSound("sound/Voicy_Monster death sound effect.wav"); 
                 enemy.freezeObject();
                 
 
@@ -159,7 +159,7 @@ public class Player extends GameObject {
                 // Player collides with the enemy otherwise
                 health--;
 
-                //Main.playSound("sound/terraria-male-player-hurt-sound.wav"); 
+                Main.playSound("sound/terraria-male-player-hurt-sound.wav"); 
                 System.out.println("Health: " + health);
                 lastDamageTime = currentTime; // Update last damage time
 

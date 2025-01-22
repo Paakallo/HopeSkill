@@ -30,13 +30,8 @@ public class ReflectionPoint extends GameObject {
     }
 
     @Override
-    public void render(Graphics g) {
-        if (isActive) {
-            g.drawImage(flower, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
-        } else if (taskCompleted) {
-            //g.setColor(Color.GREEN);
-            //g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
-        }
+    public void render(Graphics g) {  
+        g.drawImage(flower, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
     }
 
     @Override

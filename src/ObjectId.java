@@ -6,6 +6,5 @@ public enum ObjectId {
     Pipe,
     Platform,
     Reflection,
-    Flag,
-    Dead;
+    Flag;
 }
