@@ -8,6 +8,35 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
+/**
+ * Represents a block in the game "HopeSkill".
+ * <p>
+ * The {@code Block} extends {@code GameObject} and serves as a static element in the game world,
+ * used for constructing platforms or obstacles. Blocks can have different types, such as grass
+ * or dirt, which are represented with distinct textures.
+ * </p>
+ *
+ * <p>
+ * Key implemented methods from {@code GameObject}:
+ * </p>
+ * <ul>
+ *     <li>{@link #tick()}: Updates the block's position based on its velocity.</li>
+ *     <li>{@link #render(Graphics)}: Renders the block's texture on the screen.</li>
+ *     <li>{@link #getBounds()}: Retrieves the bounding rectangle for collision detection.</li>
+ * </ul>
+ *
+ * <p>
+ * Additional functionality:
+ * </p>
+ * <ul>
+ *     <li>Supports multiple block types (e.g., grass, dirt) for varied gameplay visuals.</li>
+ * </ul>
+ *
+ * @author Kryst
+ * @version 1.0
+ * @since 2025-01-21
+ */
 public class Block extends GameObject{
     
     private ObjectHandler handler;
@@ -42,6 +71,16 @@ public class Block extends GameObject{
 
     }
 
+
+/**
+     * Renders the block's texture on the screen.
+     * <p>
+     * Called during the rendering phase to display the block.
+     * The block's appearance depends on its type (grass or dirt).
+     * </p>
+     *
+     * @param g the graphics context used for rendering
+     */
     public void render(Graphics g) {
 
         if (type == 0) {
@@ -54,12 +93,28 @@ public class Block extends GameObject{
         
     }
 
+
+/**
+     * Updates the block's position based on its velocity.
+     * <p>
+     * This method is called during the game's update cycle.
+     * </p>
+     */
     public void tick(){
         //update position every tick
         setX(getVel_x()+getX());
         setY(getVel_y()+getY());
     }
 
+
+ /**
+     * Retrieves the bounding rectangle of the block.
+     * <p>
+     * This method is used for collision detection.
+     * </p>
+     *
+     * @return a {@code Rectangle} representing the block's bounds
+     */
     public Rectangle getBounds(){
         return new Rectangle((int) getX(), 
         (int) getY(), 
