@@ -17,15 +17,75 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 
+/**
+ * Represents the various states of the game "HopeSkill".
+ * <p>
+ * The {@code GameState} enum is used to define and manage the different phases
+ * or states the game can be in. These states determine the game's behavior,
+ * rendering, and user interactions at any given time.
+ * </p>
+ *
+ * <p>
+ * Enum constants:
+ * </p>
+ * <ul>
+ *     <li>{@link #MENU}: Represents the main menu of the game.</li>
+ *     <li>{@link #L1}, {@link #L2}, {@link #L3}, {@link #L4}, {@link #L5}: Represent the playable levels of the game.</li>
+ *     <li>{@link #GAME_OVER}: Indicates that the player has lost all lives or failed to complete a level.</li>
+ *     <li>{@link #VICTORY}: Represents the state when the player successfully completes a level.</li>
+ * </ul>
+ *
+ * <p>
+ * Usage:
+ * </p>
+ * <p>
+ * The game transitions between these states during gameplay. For example, the
+ * game might start in {@code MENU}, transition to {@code L1} for level 1 gameplay,
+ * and move to {@code GAME_OVER} if the player fails or {@code VICTORY} if the level is completed.
+ * </p>
+ *
+ */
 enum GameState {
+
+    /**
+     * Represents the main menu of the game.
+     */
     MENU,
-    GAME,
+
+    /**
+     * Represents level 1 of the game.
+     */
     L1,
+
+    /**
+     * Represents level 2 of the game.
+     */
     L2,
+
+    /**
+     * Represents level 3 of the game.
+     */
     L3,
+
+    /**
+     * Represents level 4 of the game.
+     */
     L4,
+
+    /**
+     * Represents level 5 of the game.
+     */
     L5,
+
+    /**
+     * Indicates that the game is over, either due to the player losing all lives
+     * or failing to complete a level.
+     */
     GAME_OVER,
+
+    /**
+     * Indicates that the player successfully completed a level or achieved victory.
+     */
     VICTORY;
 }
 

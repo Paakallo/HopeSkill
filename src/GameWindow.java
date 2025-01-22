@@ -27,6 +27,18 @@ public class GameWindow{
     private Dimension size;
 
     
+    /**
+     * Constructs a new {@code GameWindow} instance.
+     * <p>
+     * Initializes the game window with the specified dimensions, title, and game canvas.
+     * The window is configured to be non-resizable and centered on the screen.
+     * </p>
+     *
+     * @param width  the width of the game window
+     * @param height the height of the game window
+     * @param title  the title of the game window
+     * @param game   the main game instance to be added to the window
+     */
     public GameWindow(int width, int height, String title, Main game){
         size = new Dimension(width, height);
         frame = new JFrame(title);

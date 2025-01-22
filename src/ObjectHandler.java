@@ -19,6 +19,12 @@ public class ObjectHandler {
     private boolean endOfLevel = false;
 
 
+    /**
+     * Constructs a new {@code ObjectHandler} instance.
+     * <p>
+     * Initializes the list of game objects.
+     * </p>
+     */
     public ObjectHandler(){
         objects = new LinkedList<GameObject>();
     }

@@ -37,6 +37,13 @@ public class EnemyJumper extends GameObject {
     private BufferedImage jumper;
 
 
+    /**
+     * Constructs a new {@code EnemyJumper} instance.
+     *
+     * @param x       the initial x-coordinate of the jumper
+     * @param y       the initial y-coordinate of the jumper
+     * @param handler the {@code ObjectHandler} for managing game objects
+     */
     public EnemyJumper(float x, float y, ObjectHandler handler) {
         super(x, y, ObjectId.Enemy, 32, 32);
         this.handler = handler;

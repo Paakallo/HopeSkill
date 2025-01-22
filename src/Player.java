@@ -28,6 +28,14 @@ public class Player extends GameObject {
 
     private long lastDamageTime = 0; // Time in milliseconds
 
+
+    /**
+     * Constructs a new player instance.
+     *
+     * @param x       the initial x-coordinate of the player
+     * @param y       the initial y-coordinate of the player
+     * @param handler the {@code ObjectHandler} for managing game objects
+     */
     public Player(float x, float y, ObjectHandler handler) {
         super(x, y, ObjectId.Player, 30, 40); // Player dimensions (width, height)
         this.handler = handler;

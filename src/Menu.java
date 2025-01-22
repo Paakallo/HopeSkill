@@ -45,6 +45,15 @@ public class Menu extends MouseAdapter {
     int HEART_WIDTH = 30;
     int HEART_HEIGHT = 30;
 
+
+    /**
+     * Constructs a new {@code Menu} instance.
+     * <p>
+     * Initializes the menu graphics, including background and button images.
+     * </p>
+     *
+     * @param game the main game instance
+     */
     public Menu(Main game) {
         this.game = game;
 

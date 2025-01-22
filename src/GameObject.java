@@ -21,6 +21,15 @@ public abstract class GameObject {
     protected boolean isAlive = true;
 
 
+    /**
+     * Constructs a new {@code GameObject} with the specified properties.
+     *
+     * @param x      the initial x-coordinate of the object
+     * @param y      the initial y-coordinate of the object
+     * @param id     the unique identifier for the object's type
+     * @param width  the width of the object
+     * @param height the height of the object
+     */
     public GameObject(float x, float y,ObjectId id, float width, float height){
         this.x = x;
         this.y = y;
@@ -70,6 +79,10 @@ public abstract class GameObject {
     public void freezeObject(){
         isAlive = false;
     }
+
+
+    // Getters and Setters
+
 
     public float setX(float x){
         return this.x=x;

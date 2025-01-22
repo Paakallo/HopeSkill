@@ -18,6 +18,13 @@
 public class Camera {
     private float x, y;
 
+
+    /**
+     * Constructs a new {@code Camera} instance with the specified initial position.
+     *
+     * @param x the initial x-coordinate of the camera
+     * @param y the initial y-coordinate of the camera
+     */
     public Camera(float x, float y) {
         this.x = x;
         this.y = y;

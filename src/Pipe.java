@@ -37,6 +37,15 @@ public class Pipe extends GameObject{
     //textures
     private BufferedImage pipe;
 
+
+    /**
+     * Constructs a new {@code Pipe} instance.
+     *
+     * @param x      the initial x-coordinate of the pipe
+     * @param y      the initial y-coordinate of the pipe
+     * @param height the height of the pipe
+     * @param width  the width of the pipe
+     */
     public Pipe(float x, float y, int height, int width) {
         super(x, y, ObjectId.Block,width, height);
         this.height = height;

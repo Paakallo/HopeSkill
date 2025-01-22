@@ -18,6 +18,12 @@ public class Inputs extends KeyAdapter{
     private boolean[] keys = new boolean[4];
     private ObjectHandler handler;
 
+
+    /**
+     * Constructs a new Inputs instance for handling keyboard input.
+     *
+     * @param handler the {@code ObjectHandler} responsible for managing game objects
+     */
     public Inputs(ObjectHandler handler){
         this.handler = handler;
     }

@@ -37,6 +37,15 @@ public class Platform extends GameObject{
     //textures
     private BufferedImage grass;
 
+
+    /**
+     * Constructs a new {@code Platform} instance.
+     *
+     * @param x      the initial x-coordinate of the platform
+     * @param y      the initial y-coordinate of the platform
+     * @param height the height of the platform
+     * @param width  the width of the platform
+     */
     public Platform(float x, float y, int height, int width) {
         super(x, y, ObjectId.Platform, width, height);
         this.height = height;

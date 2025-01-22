@@ -33,6 +33,18 @@ public class EnemyPatroller extends GameObject {
 
     private BufferedImage patroller;
 
+
+    /**
+     * Constructs a new {@code EnemyPatroller} instance.
+     *
+     * @param x       the initial x-coordinate of the patroller
+     * @param y       the initial y-coordinate of the patroller
+     * @param width   the width of the patroller
+     * @param height  the height of the patroller
+     * @param minX    the minimum x-coordinate for patrolling
+     * @param maxX    the maximum x-coordinate for patrolling
+     * @param handler the {@code ObjectHandler} for managing game objects
+     */
     public EnemyPatroller(float x, float y, int width, int height, float minX, float maxX, ObjectHandler handler) {
         super(x, y, ObjectId.Enemy, 32, 32);
         this.minX = minX;

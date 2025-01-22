@@ -43,6 +43,16 @@ public class ReflectionPoint extends GameObject {
     String answ1;
     String answ2;
 
+
+    /**
+     * Constructs a new {@code ReflectionPoint} instance.
+     *
+     * @param x      the initial x-coordinate of the reflection point
+     * @param y      the initial y-coordinate of the reflection point
+     * @param ques   the question for the reflection task
+     * @param answ1  the first answer option
+     * @param answ2  the second answer option
+     */
     public ReflectionPoint(float x, float y, String ques, String answ1, String answ2) {
         super(x, y, ObjectId.Reflection, 50, 50);
         this.ques = ques;

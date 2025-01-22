@@ -16,12 +16,44 @@
  *
  */
 public enum ObjectId {
+
+    /**
+     * Represents the player character.
+     */
     Player,
+
+    /**
+     * Represents a generic enemy.
+     */
     Enemy,
+
+    /**
+     * Represents an enemy that patrols a specified area.
+     */
     EnemyPatroller,
+
+    /**
+     * Represents a block, typically used for constructing platforms or obstacles.
+     */
     Block,
+
+    /**
+     * Represents a pipe, often used as an interactive or decorative element.
+     */
     Pipe,
+
+    /**
+     * Represents a platform, often used for jumping or navigation.
+     */
     Platform,
+
+    /**
+     * Represents a reflection point, used for specific tasks or challenges.
+     */
     Reflection,
+
+    /**
+     * Represents the flag, signaling the end of a level.
+     */
     Flag;
 }

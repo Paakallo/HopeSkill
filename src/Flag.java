@@ -31,6 +31,12 @@ public class Flag extends GameObject {
     private BufferedImage flag;
 
 
+    /**
+     * Constructs a new {@code Flag} instance.
+     *
+     * @param x the initial x-coordinate of the flag
+     * @param y the initial y-coordinate of the flag
+     */
     public Flag(float x, float y) {
         super(x, y, ObjectId.Flag, 32, 32);
 

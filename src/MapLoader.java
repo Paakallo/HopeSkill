@@ -16,6 +16,12 @@ import java.nio.file.Paths;
 public class MapLoader {
     private ObjectHandler handler;
 
+
+    /**
+     * Constructs a new {@code MapLoader} instance.
+     *
+     * @param handler the {@code ObjectHandler} responsible for managing game objects
+     */
     public MapLoader(ObjectHandler handler) {
         this.handler = handler;
     }
