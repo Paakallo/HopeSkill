@@ -32,12 +32,14 @@ public class TaskManager {
 
         answer1.addActionListener(e -> {
             JOptionPane.showMessageDialog(frame, "You selected: " + reflection.getAnsw1());
+            player.reflections += 1;
             reflection.completeTask(player);
             frame.dispose();
         });
 
         answer2.addActionListener(e -> {
             JOptionPane.showMessageDialog(frame, "You selected: " + reflection.getAnsw2());
+            player.reflections -= 1;
             reflection.completeTask(player);
             frame.dispose();
         });

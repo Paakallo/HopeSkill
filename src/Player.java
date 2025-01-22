@@ -63,6 +63,12 @@ public class Player extends GameObject {
         if (getY()>500){
             health = 0;
         }
+
+        // punish player
+        if (reflections<0){
+            health-=1;
+            reflections = 0;
+        }
     }
 
     private void handleCollisions() {
@@ -143,7 +149,7 @@ public class Player extends GameObject {
             if (intersection.getWidth() > intersection.getHeight()) {
                 
                 setVel_y(-1000); // Bounce effect
-                Main.playSound("sound/Voicy_Monster death sound effect.wav"); 
+                //Main.playSound("sound/Voicy_Monster death sound effect.wav"); 
                 enemy.freezeObject();
                 enemy.setId(ObjectId.Dead); // without this line bounce effect works, but the enemy collision works always
 
@@ -152,7 +158,7 @@ public class Player extends GameObject {
                 // Player collides with the enemy otherwise
                 health--;
 
-                Main.playSound("sound/terraria-male-player-hurt-sound.wav"); 
+                //Main.playSound("sound/terraria-male-player-hurt-sound.wav"); 
                 System.out.println("Health: " + health);
                 lastDamageTime = currentTime; // Update last damage time
 

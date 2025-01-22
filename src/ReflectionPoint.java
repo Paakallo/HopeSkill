@@ -60,8 +60,6 @@ public class ReflectionPoint extends GameObject {
 
     public void completeTask(Player player) {
         taskCompleted = true;
-        player.health += 2; // Nagroda za ukończenie refleksji
-        player.reflections += 1;
     }
 
     public String getQuestion() {

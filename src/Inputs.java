@@ -38,7 +38,13 @@ public class Inputs extends KeyAdapter{
             if (key == KeyEvent.VK_S){
                 Player.onPoint = true;
             }
-            
+            //
+            if (e.getKeyCode() == KeyEvent.VK_E){
+                if (Player.reflections >= 0)
+                    Player.health+=1;
+                    Player.reflections-=1;
+            }
+
                 
             if (key == KeyEvent.VK_ESCAPE){
                 System.exit(0);
