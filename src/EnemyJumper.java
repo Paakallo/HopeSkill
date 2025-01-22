@@ -28,14 +28,14 @@ public class EnemyJumper extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if (isAlive){
+        if (getId()!=ObjectId.Dead){
             g.drawImage(jumper, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
         }
     }
 
     @Override
     public void tick() {
-        if (isAlive){
+        if (getId()!=ObjectId.Dead){
             setX(getX() + getVel_x());
             setY(getY() + getVel_y());
 
@@ -52,6 +52,10 @@ public class EnemyJumper extends GameObject {
                 setVel_y(-80); // Jump up
                 isJumping = false;
             }
+        } else{
+            // avoid synchronization problems and don't delete enemies
+            setX(0);
+            setY(0);
         }
         
     }
