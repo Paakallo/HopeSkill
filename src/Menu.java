@@ -1,24 +1,22 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
-
-
+/**
+ * Manages the menu interface and interactions in the game "HopeSkill".
+ * <p>
+ * The {@code Menu} class handles rendering and user interactions for the main menu,
+ * in-game menu, and level selection screen. It provides graphical elements like buttons,
+ * health indicators, and level icons.
+ * </p>
+ *
+ */
 public class Menu extends MouseAdapter {
     private Main game;
     private boolean startGameClicked = false;
@@ -75,6 +73,15 @@ public class Menu extends MouseAdapter {
     }
 
 
+/**
+     * Renders the appropriate menu based on the game state.
+     * <p>
+     * This method draws the main menu, in-game menu bar, or level selection screen,
+     * depending on the current game state and user interactions.
+     * </p>
+     *
+     * @param g the graphics context used for rendering
+     */
     public void render (Graphics g){
 
         if (game.getGameState() == GameState.MENU) {
@@ -114,7 +121,12 @@ public class Menu extends MouseAdapter {
         }
     }
 
-   
+
+/**
+     * Renders the start menu with "Start Game" and "Quit" buttons.
+     *
+     * @param g the graphics context used for rendering
+     */
     public void renderStartMenu(Graphics g){
             // Render menu text and buttons
         
@@ -126,7 +138,12 @@ public class Menu extends MouseAdapter {
             g.drawString("Quit", PLAY_BUTTON_X + 20, PLAY_BUTTON_Y + 135);
     }
 
-    // render what level to choose
+
+    /**
+     * Renders the level selection menu.
+     *
+     * @param g the graphics context used for rendering
+     */
     public void renderChooseLevel(Graphics g){
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -138,6 +155,15 @@ public class Menu extends MouseAdapter {
         }
     }
 
+
+ /**
+     * Handles mouse input for interacting with the menu.
+     * <p>
+     * Processes clicks on menu buttons to start the game, select levels, or exit the game.
+     * </p>
+     *
+     * @param e the mouse event triggered by a click
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();

@@ -5,6 +5,16 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+/**
+ * Handles loading and parsing game maps in the game "HopeSkill".
+ * <p>
+ * The {@code MapLoader} class is responsible for reading map data from JSON files,
+ * creating game objects such as blocks, pipes, platforms, enemies, and setting up
+ * the player and other interactable elements.
+ * </p>
+ *
+ */
 public class MapLoader {
     private ObjectHandler handler;
 
@@ -12,6 +22,17 @@ public class MapLoader {
         this.handler = handler;
     }
 
+
+/**
+     * Loads a map based on the selected level.
+     * <p>
+     * This method clears existing game objects, reads the JSON map file,
+     * and parses various game objects including blocks, pipes, platforms,
+     * enemies, the player, reflection points, and the level's flag.
+     * </p>
+     *
+     * @param selLevel the game state representing the selected level
+     */
     public void loadMap(GameState selLevel) {
 
         String mapFile = findMap(selLevel);
@@ -144,6 +165,12 @@ public class MapLoader {
     }
 
 
+    /**
+     * Retrieves the file path for the specified level.
+     *
+     * @param selLevel the game state representing the selected level
+     * @return the file path to the map JSON file
+     */
     public String findMap(GameState selLevel){
         String mapPath;
         

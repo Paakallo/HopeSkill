@@ -8,6 +8,25 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
+/**
+ * Represents a pipe in the game "HopeSkill".
+ * <p>
+ * The {@code Pipe} extends {@code GameObject} and serves as a static element in the game world.
+ * It provides methods to render the pipe on the screen, update its position, and handle
+ * collision detection through its bounding box.
+ * </p>
+ *
+ * <p>
+ * Key implemented methods from {@code GameObject}:
+ * </p>
+ * <ul>
+ *     <li>{@link #tick()}: Updates the pipe's position based on its velocity.</li>
+ *     <li>{@link #render(Graphics)}: Renders the pipe's sprite on the screen.</li>
+ *     <li>{@link #getBounds()}: Retrieves the bounding rectangle for collision detection.</li>
+ * </ul>
+ *
+ */
 public class Pipe extends GameObject{
     
     private ObjectHandler handler;
@@ -33,20 +52,41 @@ public class Pipe extends GameObject{
     }
 
 
+    /**
+     * Renders the pipe's sprite on the screen.
+     * <p>
+     * Called during the rendering phase to display the pipe.
+     * </p>
+     *
+     * @param g the graphics context used for rendering
+     */
     public void render(Graphics g) {
 
-        g.drawImage(pipe, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
-        
-
-        
+        g.drawImage(pipe, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);  
     }
 
+
+/**
+     * Updates the pipe's position based on its velocity.
+     * <p>
+     * This method is called during the game's update cycle.
+     * </p>
+     */
     public void tick(){
         //update position every tick
         setX(getVel_x()+getX());
         setY(getVel_y()+getY());
     }
 
+
+/**
+     * Retrieves the bounding rectangle of the pipe.
+     * <p>
+     * This method is used for collision detection.
+     * </p>
+     *
+     * @return a {@code Rectangle} representing the pipe's bounds
+     */ 
     public Rectangle getBounds(){
         return new Rectangle((int) getX(), 
         (int) getY(), 

@@ -1,8 +1,20 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class Inputs extends KeyAdapter{
 
+/**
+ * Handles keyboard input for the game "HopeSkill".
+ * <p>
+ * This class listens for key presses and releases, interpreting them as actions
+ * for the player character such as movement, jumping, or performing other in-game
+ * interactions.
+ * </p>
+ *
+ */
+public class Inputs extends KeyAdapter{
+    /**
+     * Tracks the state of movement keys (W, A, S, D).
+     */
     private boolean[] keys = new boolean[4];
     private ObjectHandler handler;
 
@@ -10,6 +22,16 @@ public class Inputs extends KeyAdapter{
         this.handler = handler;
     }
 
+
+/**
+     * Invoked when a key is pressed.
+     * <p>
+     * Handles player actions such as jumping, moving left or right,
+     * performing in-game actions, and exiting the game.
+     * </p>
+     *
+     * @param e the key event
+     */
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
@@ -51,6 +73,15 @@ public class Inputs extends KeyAdapter{
             }
     }
     
+
+    /**
+     * Invoked when a key is released.
+     * <p>
+     * Updates the state of movement keys and resets player actions as needed.
+     * </p>
+     *
+     * @param e the key event
+     */
     public void keyReleased(KeyEvent e){
         
         int key = e.getKeyCode();

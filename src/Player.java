@@ -4,10 +4,18 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
-//TODO: TOP COLLISION!!!
 import java.io.File;
 import java.io.IOException;
 
+
+/**
+ * Represents the player character in the game.
+ * <p>
+ * The player is a dynamic game object controlled by the user, capable of movement, jumping,
+ * interacting with the game world, and managing health and collision states.
+ * </p>
+ *
+ */
 public class Player extends GameObject {
     private ObjectHandler handler;
     private boolean jump = false;
@@ -31,6 +39,12 @@ public class Player extends GameObject {
         }
     }
 
+
+/**
+     * Renders the player on the screen.
+     *
+     * @param g the graphics context used for rendering
+     */
     @Override
     public void render(Graphics g) {
 
@@ -39,6 +53,10 @@ public class Player extends GameObject {
         g.drawImage(playerStand, (int) getX(), (int) getY(), (int) getWidth(), (int) getHeight(), null);
     }
 
+
+ /**
+     * Updates the player's state, including movement, collision detection, and gravity.
+     */
     @Override
     public void tick() {
         // Update position
@@ -71,6 +89,10 @@ public class Player extends GameObject {
         }
     }
 
+
+/**
+     * Handles collisions between the player and other game objects.
+     */
     private void handleCollisions() {
         List<GameObject> objects = handler.getObjects();
 
@@ -87,7 +109,14 @@ public class Player extends GameObject {
             
         }
     }
-    // object collision
+    
+    
+  
+/**
+     * Resolves collisions with static game objects like blocks and platforms.
+     *
+     * @param obj the game object the player collided with
+     */
     private void resolveCollision(GameObject obj) {
         Rectangle playerBounds = getBounds();
         Rectangle objBounds = obj.getBounds();
@@ -132,7 +161,12 @@ public class Player extends GameObject {
     }
  
 
-    // enemy collision
+    
+/**
+     * Handles collisions with enemies, reducing health or destroying enemies as appropriate.
+     *
+     * @param enemy the enemy the player collided with
+     */
     private void handleEnemyCollision(GameObject enemy) {
         // E enemyObj = (GameObject) enemy;
 
@@ -171,6 +205,11 @@ public class Player extends GameObject {
     }
 
 
+/**
+     * Handles collisions with the level's flag to signal level completion.
+     *
+     * @param obj the flag object
+     */
     private void handleFlagCollision(GameObject obj){
         if (getBounds().intersects(obj.getBounds())) {
             handler.setEndLevel(true);
@@ -179,6 +218,11 @@ public class Player extends GameObject {
     }
 
 
+/**
+     * Checks if the player is on the ground by detecting collisions below.
+     *
+     * @return {@code true} if the player is on the ground; {@code false} otherwise
+     */
     private boolean isGrounded() {
         List<GameObject> objects = handler.getObjects();
 
@@ -193,6 +237,12 @@ public class Player extends GameObject {
         return false;
     }
 
+
+ /**
+     * Retrieves the bounding area of the player.
+     *
+     * @return a {@code Rectangle} representing the player's bounds
+     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) getX(), (int) getY(), (int) getWidth() + 2, (int) getHeight() + 2);
@@ -204,10 +254,21 @@ public class Player extends GameObject {
     }
 
 
+    /**
+     * Retrieves whether the player is currently jumping.
+     *
+     * @return {@code true} if the player is jumping; {@code false} otherwise
+     */
     public boolean getJump() {
         return jump;
     }
 
+
+/**
+     * Sets whether the player is jumping.
+     *
+     * @param jump {@code true} if the player is jumping; {@code false} otherwise
+     */
     public void setJump(boolean jump) {
         this.jump = jump;
     }

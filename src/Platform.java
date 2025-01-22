@@ -8,6 +8,25 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
+/**
+ * Represents a platform in the game "HopeSkill".
+ * <p>
+ * The {@code Platform} extends {@code GameObject} and serves as a static element used for navigation
+ * in the game world. It provides methods to render the platform, update its position, and define
+ * its collision boundaries.
+ * </p>
+ *
+ * <p>
+ * Key implemented methods from {@code GameObject}:
+ * </p>
+ * <ul>
+ *     <li>{@link #tick()}: Updates the platform's position based on its velocity.</li>
+ *     <li>{@link #render(Graphics)}: Renders the platform's texture on the screen.</li>
+ *     <li>{@link #getBounds()}: Retrieves the bounding rectangle for collision detection.</li>
+ * </ul>
+ *
+ */
 public class Platform extends GameObject{
     
     private ObjectHandler handler;
@@ -33,6 +52,16 @@ public class Platform extends GameObject{
 
     }
 
+
+/**
+     * Renders the platform's texture on the screen.
+     * <p>
+     * Called during the rendering phase to display the platform.
+     * If the texture is unavailable, a white rectangle is drawn instead.
+     * </p>
+     *
+     * @param g the graphics context used for rendering
+     */
     public void render(Graphics g) {
 
         if (grass != null) {
@@ -46,18 +75,32 @@ public class Platform extends GameObject{
         
     }
 
+
+/**
+     * Updates the platform's position based on its velocity.
+     * <p>
+     * This method is called during the game's update cycle.
+     * </p>
+     */
     public void tick(){
         //update position every tick
         setX(getVel_x()+getX());
         setY(getVel_y()+getY());
     }
 
+
+/**
+     * Retrieves the bounding rectangle of the platform.
+     * <p>
+     * This method is used for collision detection.
+     * </p>
+     *
+     * @return a {@code Rectangle} representing the platform's bounds
+     */
     public Rectangle getBounds(){
         return new Rectangle((int) getX(), 
         (int) getY(), 
         (int) getWidth(), 
         (int) getHeight());
     }
-
-
 }

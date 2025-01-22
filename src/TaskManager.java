@@ -6,6 +6,24 @@ import javax.swing.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
+/**
+ * Manages tasks and interactions triggered by reflection points in the game "HopeSkill".
+ * <p>
+ * The {@code TaskManager} handles the execution of reflection tasks presented to the player.
+ * It provides methods for displaying a graphical user interface (GUI) to interact with
+ * reflection points and updates the player's state based on their choices.
+ * </p>
+ *
+ * <p>
+ * Key responsibilities:
+ * </p>
+ * <ul>
+ *     <li>Displays a GUI for reflection tasks, including questions and answer options.</li>
+ *     <li>Handles player interactions with the reflection task, updating game state accordingly.</li>
+ * </ul>
+ *
+ */
 public class TaskManager {
     public static void startReflectionTask(ReflectionPoint reflection, Player player) {
         JFrame frame = new JFrame("Reflection Point");

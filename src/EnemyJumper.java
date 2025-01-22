@@ -8,6 +8,28 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+
+/**
+ * Represents an enemy that jumps periodically or in response to collisions in the game "HopeSkill".
+ * <p>
+ * The {@code EnemyJumper} extends {@code GameObject} and implements methods to update its state,
+ * handle rendering, and detect collisions. It uses gravity for movement and periodically jumps
+ * when grounded.
+ * </p>
+ *
+ * <p>
+ * Key implemented methods:
+ * </p>
+ * <ul>
+ *     <li>{@link #tick()}: Updates the jumper's state, including movement and collision detection.</li>
+ *     <li>{@link #render(Graphics)}: Renders the jumper's sprite on the screen.</li>
+ *     <li>{@link #getBounds()}: Retrieves the bounding rectangle for collision detection.</li>
+ * </ul>
+ *
+ * @author Kryst
+ * @version 1.0
+ * @since 2025-01-21
+ */
 public class EnemyJumper extends GameObject {
     private boolean isJumping = false;
     private ObjectHandler handler;
@@ -26,6 +48,15 @@ public class EnemyJumper extends GameObject {
         }
     }
 
+
+/**
+     * Renders the jumper's sprite on the screen.
+     * <p>
+     * Called during the rendering phase to display the jumper.
+     * </p>
+     *
+     * @param g the graphics context used for rendering
+     */
     @Override
     public void render(Graphics g) {
         if (isAlive){
@@ -33,6 +64,14 @@ public class EnemyJumper extends GameObject {
         }
     }
 
+
+/**
+     * Updates the jumper's state, including movement and collision handling.
+     * <p>
+     * This method applies gravity, moves the jumper, and handles collisions
+     * with other objects. The jumper periodically initiates a jump when grounded.
+     * </p>
+     */
     @Override
     public void tick() {
         if (isAlive){
@@ -60,6 +99,10 @@ public class EnemyJumper extends GameObject {
         
     }
 
+
+ /**
+     * Handles collisions between the jumper and other objects.
+     */
     private void handleCollisions() {
         List<GameObject> objects = handler.getObjects();
 
@@ -72,6 +115,15 @@ public class EnemyJumper extends GameObject {
         }
     }
 
+
+/**
+     * Resolves collisions with static objects such as blocks and platforms.
+     * <p>
+     * Adjusts the jumper's position and velocity to prevent overlapping.
+     * </p>
+     *
+     * @param obj the object the jumper collided with
+     */
     private void resolveCollision(GameObject obj) {
         Rectangle jumperBounds = getBounds();
         Rectangle objBounds = obj.getBounds();
@@ -104,6 +156,12 @@ public class EnemyJumper extends GameObject {
         }
     }
 
+
+/**
+     * Checks if the jumper is grounded by detecting collisions below.
+     *
+     * @return {@code true} if the jumper is on the ground; {@code false} otherwise
+     */
     private boolean isGrounded() {
         
 
@@ -117,7 +175,15 @@ public class EnemyJumper extends GameObject {
         return false;
     }
 
-    
+   
+/**
+     * Retrieves the bounding rectangle of the jumper.
+     * <p>
+     * This method is used for collision detection.
+     * </p>
+     *
+     * @return a {@code Rectangle} representing the jumper's bounds
+     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
